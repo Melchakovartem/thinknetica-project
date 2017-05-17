@@ -1,0 +1,51 @@
+AllCops:
+  DisplayCopNames: true
+  TargetRubyVersion: 2.3
+
+  Include:
+    - "db/migrate/**/*"
+
+  Exclude:
+    - "bin/**/*"
+    - "db/**/*"
+    - "node_modules/**/*"
+
+Rails:
+  Enabled: true
+
+Rails/ReversibleMigration:
+  Enabled: false
+
+Metrics/LineLength:
+  Max: 120
+
+Metrics/MethodLength:
+  Enabled: false
+
+Metrics/BlockLength:
+  Enabled: false
+
+Metrics/AbcSize:
+  Exclude:
+    - "db/migrate/**/*"
+
+Style/Documentation:
+  Enabled: false
+
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+
+Style/StringLiteralsInInterpolation:
+  EnforcedStyle: double_quotes
+
+Style/IndentationConsistency:
+  EnforcedStyle: rails
+
+Style/FileName:
+  Enabled: false
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
