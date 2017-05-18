@@ -7,6 +7,6 @@ class CreateAnswers < ActiveRecord::Migration[5.0]
       t.timestamps
     end
 
-    add_reference :answers, :question_id, index: true
+    add_reference :answers, :question, index: true
   end
 end
