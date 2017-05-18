@@ -17,11 +17,10 @@ ActiveRecord::Schema.define(version: 20170517145255) do
 
   create_table "answers", force: :cascade do |t|
     t.text     "body"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
     t.integer  "question_id"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
-    t.integer  "question_id_id"
-    t.index ["question_id_id"], name: "index_answers_on_question_id_id", using: :btree
+    t.index ["question_id"], name: "index_answers_on_question_id", using: :btree
   end
 
   create_table "questions", force: :cascade do |t|
@@ -31,4 +30,5 @@ ActiveRecord::Schema.define(version: 20170517145255) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "answers", "questions"
 end
