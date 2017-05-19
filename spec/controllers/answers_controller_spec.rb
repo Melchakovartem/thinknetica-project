@@ -1,10 +1,10 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe AnswersController, type: :controller do
   let(:question) { create(:question) }
 
   describe "GET #new" do
-    before { get :new, question_id: question }
+    before { get :new, params: { question_id: question } }
 
     it "assigns a new Answer to @answer" do
       expect(assigns(:answer)).to be_a_new(Answer)
@@ -18,8 +18,10 @@ RSpec.describe AnswersController, type: :controller do
   describe "POST #create" do
     context "with valid attributes" do
       it "saves new answers in database" do
-        expect { post :create,
-                 params: { question_id: question, answer: attributes_for(:answer).except(:question) } }.to change(Answer, :count).by(1)
+        expect do
+          post :create,
+               params: { question_id: question, answer: attributes_for(:answer).except(:question) }
+        end.to change(Answer, :count).by(1)
       end
 
       it "redirect to index view" do
@@ -30,9 +32,11 @@ RSpec.describe AnswersController, type: :controller do
 
     context "with invalid attributes" do
       it "doesn't saves new answers in database" do
-        expect { post :create,
-                 params: { question_id: question, answer: { body: nil } }.not_to
-                 change(Answer, :count) }
+        expect do
+          post :create,
+               params: { question_id: question, answer: { body: nil } }.not_to
+          change(Answer, :count)
+        end
       end
 
       it "re-renders new view" do
