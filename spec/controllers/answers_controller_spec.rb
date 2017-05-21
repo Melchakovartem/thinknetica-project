@@ -21,7 +21,7 @@ RSpec.describe AnswersController, type: :controller do
         expect do
           post :create,
                params: { question_id: question, answer: attributes_for(:answer).except(:question) }
-        end.to change(Answer, :count).by(1)
+        end.to change(question.answers, :count).by(1)
       end
 
       it "redirect to index view" do
@@ -35,7 +35,7 @@ RSpec.describe AnswersController, type: :controller do
         expect do
           post :create,
                params: { question_id: question, answer: { body: nil } }.not_to
-          change(Answer, :count)
+          change(question.answerss, :count)
         end
       end
 
