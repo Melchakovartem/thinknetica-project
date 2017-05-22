@@ -1,5 +1,6 @@
 class QuestionsController < ApplicationController
   before_action :load_question, only: [:show]
+  before_action :authenticate_user!, except: %i[index show]
 
   def new
     @question = Question.new
@@ -12,6 +13,10 @@ class QuestionsController < ApplicationController
     else
       render :new
     end
+  end
+
+  def index
+    @questions = Question.all
   end
 
   def show; end
