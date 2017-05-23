@@ -54,11 +54,12 @@ group :test, :development do
   gem "factory_girl_rails"
   gem "rails-controller-testing"
   gem "rspec-rails"
-  gem "launchy"
 end
 
 group :test do
   gem "shoulda-matchers"
+  gem "launchy"
+  gem "capybara"
 end
 
 gem "slim-rails"

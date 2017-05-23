@@ -50,4 +50,18 @@ RSpec.describe QuestionsController, type: :controller do
       expect(response).to render_template :show
     end
   end
+
+  describe "GET #index" do
+    let(:questions) { create_list(:question, 3) }
+
+    before { get :index }
+
+    it "assigns requested questions to @questions" do
+      expect(assigns(:questions)).to eq questions
+    end
+
+    it "render index view" do
+      expect(response).to render_template :index
+    end
+  end
 end
