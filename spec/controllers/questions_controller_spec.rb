@@ -2,6 +2,7 @@ require "rails_helper"
 
 RSpec.describe QuestionsController, type: :controller do
   describe "GET #new" do
+    sign_in_user
     before { get :new }
 
     it "assigns a new Question to @question" do
@@ -15,6 +16,7 @@ RSpec.describe QuestionsController, type: :controller do
 
   describe "POST #create" do
     context "with valid attributes" do
+      sign_in_user
       it "saves new question in database" do
         expect { post :create, params: { question: attributes_for(:question) } }.to change(Question, :count).by(1)
       end
@@ -26,6 +28,7 @@ RSpec.describe QuestionsController, type: :controller do
     end
 
     context "with invalid attributes" do
+      sign_in_user
       it "doesn't save question in database" do
         expect { post :create, params: { question: attributes_for(:invalid_question) } }.not_to change(Question, :count)
       end

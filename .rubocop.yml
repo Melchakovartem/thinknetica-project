@@ -10,6 +10,8 @@ AllCops:
     - "db/**/*"
     - "node_modules/**/*"
     - "rubocop_pre_commit.rb"
+    - "config/**/*"
+    - "spec/**/*"
 
 Rails:
   Enabled: true
