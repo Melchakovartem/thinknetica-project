@@ -13,7 +13,7 @@ feature "Create question", '
     fill_in "Title", with: "Title of question"
     fill_in "Body", with: "Body of question"
     click_on "Create"
-    save_and_open_page
+
     expect(page).to have_content "Your question succesfully created"
   end
 end
