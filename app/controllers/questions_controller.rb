@@ -1,6 +1,6 @@
 class QuestionsController < ApplicationController
-  before_action :authenticate_user!, only: [:new, :create]
-  before_action :load_question, only: [:show]
+  before_action :authenticate_user!, only: [:new, :create, :destroy]
+  before_action :load_question, only: [:show, :destroy]
 
   def new
     @question = Question.new
@@ -24,6 +24,15 @@ class QuestionsController < ApplicationController
 
   def index
     @questions = Question.all
+  end
+
+  def destroy
+    if current_user.id == @question.user_id
+      @question.destroy
+      redirect_to questions_path, notice: "Your question succesfully deleted"
+    else
+      redirect_to @question, notice: "You haven't rights for this action"
+    end
   end
 
   private

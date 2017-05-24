@@ -100,4 +100,36 @@ RSpec.describe QuestionsController, type: :controller do
       expect(response).to render_template :index
     end
   end
+
+  describe "DELETE #destroy" do
+    sign_in_user
+
+    context "if user is author of question" do
+      let(:question) { create(:question, user: @user) }
+
+      before { delete :destroy, params: { id: question } }
+
+      it "checks record in database" do
+        expect(Question.where(id: question.id)).not_to exist
+      end
+
+      it "redirects to index view" do
+        expect(response).to redirect_to questions_path
+      end
+    end
+
+    context "if user isn't author of question" do
+      let(:question) { create(:question) }
+
+      before { delete :destroy, params: { id: question } }
+
+      it "checks record in database" do
+        expect(Question.where(id: question.id)).to exist
+      end
+
+      it "redirects to index view" do
+        expect(response).to redirect_to question_path(question)
+      end
+    end
+  end
 end
