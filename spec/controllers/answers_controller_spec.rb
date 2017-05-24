@@ -39,12 +39,12 @@ RSpec.describe AnswersController, type: :controller do
         it "saves new answer in database" do
           expect do
             post :create,
-                 params: { question_id: question, answer: attributes_for(:answer).except(:question) }
+                 params: { question_id: question, answer: attributes_for(:answer).except(:question, :user) }
           end.to change(question.answers, :count).by(1)
         end
 
         it "redirects to index view" do
-          post :create, params: { question_id: question, answer: attributes_for(:answer).except(:question) }
+          post :create, params: { question_id: question, answer: attributes_for(:answer).except(:question, :user) }
           expect(response).to redirect_to question_answers_path(assigns(:question))
         end
       end
@@ -69,12 +69,12 @@ RSpec.describe AnswersController, type: :controller do
       it "doesn't save new answer in database" do
         expect do
           post :create,
-               params: { question_id: question, answer: attributes_for(:answer).except(:question) }
+               params: { question_id: question, answer: attributes_for(:answer).except(:question, :user) }
         end.not_to change(question.answers, :count)
       end
 
       it "redirects to sign in" do
-        post :create, params: { question_id: question, answer: attributes_for(:answer).except(:question) }
+        post :create, params: { question_id: question, answer: attributes_for(:answer).except(:question, :user) }
         expect(response).to redirect_to new_user_session_path
       end
     end

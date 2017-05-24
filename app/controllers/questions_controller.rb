@@ -8,6 +8,7 @@ class QuestionsController < ApplicationController
 
   def create
     @question = Question.create(question_params)
+    @question.user_id = current_user.id
     if @question.save
       flash[:notice] = "Your question succesfully created"
       redirect_to @question
