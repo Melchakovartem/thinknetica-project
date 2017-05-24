@@ -8,7 +8,7 @@ feature "View question and answers", '
   given!(:question) { create(:question) }
   given!(:answers) { create_list(:answer, 5, question: question) }
 
-  scenario "Any user can view question and answers" do
+  scenario "User try to view question and answers" do
 
     visit question_path(question)
 

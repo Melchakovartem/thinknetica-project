@@ -22,11 +22,7 @@ feature "User sign up", '
 
   scenario "Registered user try sign up" do
 
-    visit new_user_registration_path
-    fill_in "Email", with: user.email
-    fill_in "Password", with: user.password
-    fill_in "Password confirmation", with: user.password
-    click_on "Sign up"
+    sign_up(user)
 
     expect(page).to have_content "Email has already been taken"
     expect(current_path).to eq user_registration_path

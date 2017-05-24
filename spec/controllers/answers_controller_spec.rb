@@ -4,44 +4,78 @@ RSpec.describe AnswersController, type: :controller do
   let(:question) { create(:question) }
 
   describe "GET #new" do
-    before { get :new, params: { question_id: question } }
+    context "if authenticated user" do
+      sign_in_user
 
-    it "assigns a new Answer to @answer" do
-      expect(assigns(:answer)).to be_a_new(Answer)
+      before { get :new, params: { question_id: question } }
+
+      it "assigns a new Answer to @answer" do
+       expect(assigns(:answer)).to be_a_new(Answer)
+      end
+
+      it "render new view" do
+       expect(response).to render_template :new
+      end
     end
 
-    it "render new view" do
-      expect(response).to render_template :new
+    context "if unauthenticated user" do
+      before { get :new, params: { question_id: question } }
+
+      it "doesn't assigns a new Answer to @answer" do
+       expect(assigns(:answer)).not_to be_a_new(Answer)
+      end
+
+      it "redirects to sign in" do
+       expect(response).to redirect_to new_user_session_path
+      end
     end
   end
 
   describe "POST #create" do
-    context "with valid attributes" do
-      it "saves new answers in database" do
-        expect do
-          post :create,
-               params: { question_id: question, answer: attributes_for(:answer).except(:question) }
-        end.to change(question.answers, :count).by(1)
-      end
+    context "if authenticated user" do
+      sign_in_user
 
-      it "redirect to index view" do
-        post :create, params: { question_id: question, answer: attributes_for(:answer).except(:question) }
-        expect(response).to redirect_to question_answers_path(assigns(:question))
-      end
-    end
+      context "with valid attributes" do
+        it "saves new answer in database" do
+          expect do
+            post :create,
+                 params: { question_id: question, answer: attributes_for(:answer).except(:question) }
+          end.to change(question.answers, :count).by(1)
+        end
 
-    context "with invalid attributes" do
-      it "doesn't saves new answers in database" do
-        expect do
-          post :create,
-               params: { question_id: question, answer: { body: nil } }.not_to
-          change(question.answerss, :count)
+        it "redirects to index view" do
+          post :create, params: { question_id: question, answer: attributes_for(:answer).except(:question) }
+          expect(response).to redirect_to question_answers_path(assigns(:question))
         end
       end
 
-      it "re-renders new view" do
-        post :create, params: { question_id: question, answer: { body: nil } }
-        expect(response).to render_template :new
+      context "with invalid attributes" do
+        it "doesn't saves new answer in database" do
+          expect do
+            post :create,
+                 params: { question_id: question, answer: { body: nil } }.not_to
+            change(question.answerss, :count)
+          end
+        end
+
+        it "re-renders new view" do
+          post :create, params: { question_id: question, answer: { body: nil } }
+          expect(response).to render_template :new
+        end
+      end
+    end
+
+    context "if unauthenticated user" do
+      it "doesn't save new answer in database" do
+        expect do
+          post :create,
+               params: { question_id: question, answer: attributes_for(:answer).except(:question) }
+        end.not_to change(question.answers, :count)
+      end
+
+      it "redirects to sign in" do
+        post :create, params: { question_id: question, answer: attributes_for(:answer).except(:question) }
+        expect(response).to redirect_to new_user_session_path
       end
     end
   end

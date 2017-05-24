@@ -5,4 +5,17 @@ module AcceptanceMacros
     fill_in "Password", with: user.password
     click_on "Log in"
   end
+
+  def sign_up(user)
+    visit new_user_registration_path
+    fill_in "Email", with: user.email
+    fill_in "Password", with: user.password
+    fill_in "Password confirmation", with: user.password
+    click_on "Sign up"
+  end
+
+  def redirect_to_sign_in
+    expect(page).to have_content "You need to sign in or sign up before continuing."
+    expect(current_path).to eq new_user_session_path
+  end
 end
