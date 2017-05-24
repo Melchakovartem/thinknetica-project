@@ -15,7 +15,10 @@ class QuestionsController < ApplicationController
     end
   end
 
-  def show; end
+  def show
+    @answer = @question.answers.new
+    @answers = @question.answers.all
+  end
 
   def index
     @questions = Question.all
