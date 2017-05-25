@@ -93,4 +93,53 @@ RSpec.describe AnswersController, type: :controller do
       expect(response).to render_template :index
     end
   end
+
+  describe "GET #show" do
+    let!(:question) { create(:question) }
+    let!(:answer) { create(:answer, question: question) }
+
+    before { get :show, params: { question_id: question, id: answer } }
+
+    it "assigns requested answer to @answer" do
+      expect(assigns(:answer)).to eq answer
+    end
+
+    it "render show view" do
+      expect(response).to render_template :show
+    end
+  end
+
+  describe "DELETE #destroy" do
+    sign_in_user
+
+    context "if user is author of answer" do
+      let(:question) { create(:question) }
+      let(:answer) { create(:answer, question: question, user: @user) }
+
+      before { delete :destroy, params: { question_id: question, id: answer } }
+
+      it "checks record in database" do
+        expect(Answer.where(id: answer.id)).not_to exist
+      end
+
+      it "redirects to question show view" do
+        expect(response).to redirect_to question_path(question)
+      end
+    end
+
+    context "if user isn't author of question" do
+      let(:question) { create(:question) }
+      let(:answer) { create(:answer, question: question) }
+
+      before { delete :destroy, params: { question_id: question, id: answer } }
+
+      it "checks record in database" do
+        expect(Answer.where(id: answer.id)).to exist
+      end
+
+      it "redirects to index view" do
+        expect(response).to redirect_to question_answer_path(question, answer)
+      end
+    end
+  end
 end
