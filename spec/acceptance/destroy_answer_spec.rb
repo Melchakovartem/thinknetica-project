@@ -19,6 +19,7 @@ feature "Destroy answer", '
     click_on "Delete"
 
     expect(page).to have_content "Your answer succesfully deleted"
+    expect(page).not_to have_content answer.body
     expect(current_path).to eq question_path(question)
   end
 

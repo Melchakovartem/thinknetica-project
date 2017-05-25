@@ -45,7 +45,7 @@ RSpec.describe AnswersController, type: :controller do
 
         it "redirects to index view" do
           post :create, params: { question_id: question, answer: attributes_for(:answer).except(:question, :user) }
-          expect(response).to redirect_to question_answers_path(assigns(:question))
+          expect(response).to redirect_to question_path(assigns(:question))
         end
       end
 

@@ -17,6 +17,8 @@ feature "Create question", '
     click_on "Create"
 
     expect(page).to have_content "Your question succesfully created"
+    expect(page).to have_content "Title of question"
+    expect(page).to have_content "Body of question"
   end
 
   scenario "Anauthenticated user to create question" do

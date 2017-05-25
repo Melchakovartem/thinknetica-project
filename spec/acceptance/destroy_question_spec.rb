@@ -18,6 +18,7 @@ feature "Destroy question", '
     click_on "Delete"
 
     expect(page).to have_content "Your question succesfully deleted"
+    expect(page).not_to have_content question.body
     expect(current_path).to eq questions_path
   end
 

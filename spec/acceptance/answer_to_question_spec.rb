@@ -5,8 +5,8 @@ feature "Answer to question", '
   As an authenticated user
   I want to be to answer the question
 ' do
-  given(:question) { create(:question) }
-  given(:user) { create(:user) }
+  given!(:question) { create(:question) }
+  given!(:user) { create(:user) }
 
   scenario "Authenticated user try to answer the question" do
     sign_in(user)
@@ -16,7 +16,8 @@ feature "Answer to question", '
     click_on "Answer"
 
     expect(page).to have_content "Your answer succefully created"
-    expect(current_path).to eq question_answers_path(question)
+    expect(page).to have_content "Answer the question"
+    expect(current_path).to eq question_path(question)
   end
 
   scenario "Unauthenticated user try to answer the question" do
