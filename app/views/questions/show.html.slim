@@ -6,7 +6,7 @@ div
  - @answers.each do |a|
    p= a.body
 
-= form_for @answer, url: question_answers_path(@question), method: :post do |f|
+= form_for [@question, @answer] do |f|
   = f.label :body
   = f.text_area :body
   = f.submit "Answer"
