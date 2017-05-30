@@ -1,6 +1,7 @@
 FactoryGirl.define do
   factory :answer do
-    body "MyString"
-    question { FactoryGirl.create(:question) }
+    body { "Body of answer - #{rand(1..1000)}" }
+    question { create(:question) }
+    user { create(:user) }
   end
 end

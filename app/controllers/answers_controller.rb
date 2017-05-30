@@ -1,5 +1,9 @@
 class AnswersController < ApplicationController
+  before_action :authenticate_user!, only: [:new, :create, :destroy]
   before_action :load_question
+  before_action :load_answer, only: [:show, :destroy]
+
+  def show; end
 
   def new
     @answer = @question.answers.new
@@ -7,15 +11,21 @@ class AnswersController < ApplicationController
 
   def create
     @answer = @question.answers.create(answer_params)
-    if @answer.save
-      redirect_to question_answers_path(@question)
-    else
-      render :new
-    end
+    @answer.user_id = current_user.id
+    @answer.save
   end
 
   def index
     @answers = @question.answers
+  end
+
+  def destroy
+    if current_user.id == @answer.user_id
+      @answer.destroy
+      redirect_to question_path(@question), notice: "Your answer succesfully deleted"
+    else
+      redirect_to question_answer_path(@question, @answer), notice: "You haven't rights for this action"
+    end
   end
 
   private
@@ -26,5 +36,9 @@ class AnswersController < ApplicationController
 
     def answer_params
       params.require(:answer).permit(:body)
+    end
+
+    def load_answer
+      @answer = @question.answers.find(params[:id])
     end
 end

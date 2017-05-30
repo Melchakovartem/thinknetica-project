@@ -1,5 +1,6 @@
 class QuestionsController < ApplicationController
-  before_action :load_question, only: [:show]
+  before_action :authenticate_user!, only: %i[new create destroy]
+  before_action :load_question, only: %i[show destroy]
 
   def new
     @question = Question.new
@@ -7,14 +8,32 @@ class QuestionsController < ApplicationController
 
   def create
     @question = Question.create(question_params)
+    @question.user_id = current_user.id
     if @question.save
+      flash[:notice] = "Your question succesfully created"
       redirect_to @question
     else
       render :new
     end
   end
 
-  def show; end
+  def show
+    @answer = @question.answers.new
+    @answers = @question.answers.all
+  end
+
+  def index
+    @questions = Question.all
+  end
+
+  def destroy
+    if current_user.id == @question.user_id
+      @question.destroy
+      redirect_to questions_path, notice: "Your question succesfully deleted"
+    else
+      redirect_to @question, notice: "You haven't rights for this action"
+    end
+  end
 
   private
 
