@@ -3,8 +3,7 @@ class AnswersController < ApplicationController
   before_action :load_question
   before_action :load_answer, only: [:show, :destroy]
 
-  def show
-  end
+  def show; end
 
   def new
     @answer = @question.answers.new

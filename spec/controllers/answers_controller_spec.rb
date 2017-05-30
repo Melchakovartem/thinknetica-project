@@ -10,11 +10,11 @@ RSpec.describe AnswersController, type: :controller do
       before { get :new, params: { question_id: question } }
 
       it "assigns a new Answer to @answer" do
-       expect(assigns(:answer)).to be_a_new(Answer)
+        expect(assigns(:answer)).to be_a_new(Answer)
       end
 
       it "render new view" do
-       expect(response).to render_template :new
+        expect(response).to render_template :new
       end
     end
 
@@ -22,11 +22,11 @@ RSpec.describe AnswersController, type: :controller do
       before { get :new, params: { question_id: question } }
 
       it "doesn't assigns a new Answer to @answer" do
-       expect(assigns(:answer)).not_to be_a_new(Answer)
+        expect(assigns(:answer)).not_to be_a_new(Answer)
       end
 
       it "redirects to sign in" do
-       expect(response).to redirect_to new_user_session_path
+        expect(response).to redirect_to new_user_session_path
       end
     end
   end
@@ -40,7 +40,7 @@ RSpec.describe AnswersController, type: :controller do
           expect do
             post :create,
                  params: { question_id: question, answer: attributes_for(:answer).except(:question, :user),
-                 format: :js }
+                           format: :js }
           end.to change(question.answers, :count).by(1)
         end
       end

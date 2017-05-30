@@ -58,10 +58,10 @@ end
 
 group :test do
   gem "capybara"
-  gem "launchy"
-  gem "shoulda-matchers"
-  gem "selenium-webdriver", "2.53.4"
   gem "database_cleaner"
+  gem "launchy"
+  gem "selenium-webdriver", "2.53.4"
+  gem "shoulda-matchers"
 end
 
 gem "slim-rails"

@@ -1,6 +1,6 @@
 class QuestionsController < ApplicationController
-  before_action :authenticate_user!, only: [:new, :create, :destroy]
-  before_action :load_question, only: [:show, :destroy]
+  before_action :authenticate_user!, only: %i[new create destroy]
+  before_action :load_question, only: %i[show destroy]
 
   def new
     @question = Question.new

@@ -9,7 +9,6 @@ feature "User sign up", '
   given(:user) { create(:user) }
 
   scenario "Unregistered user try sign up" do
-
     visit new_user_registration_path
     fill_in "Email", with: "new_user@test.com"
     fill_in "Password", with: "123456"
@@ -21,7 +20,6 @@ feature "User sign up", '
   end
 
   scenario "Registered user try sign up" do
-
     sign_up(user)
 
     expect(page).to have_content "Email has already been taken"

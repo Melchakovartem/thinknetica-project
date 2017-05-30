@@ -8,7 +8,6 @@ feature "View the list of questions", '
   given!(:questions) { create_list(:question, 3) }
 
   scenario "Any user views list of question" do
-
     visit questions_path
 
     expect(page).to have_content questions.first.title

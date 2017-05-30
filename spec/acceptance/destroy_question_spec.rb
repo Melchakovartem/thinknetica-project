@@ -11,7 +11,6 @@ feature "Destroy question", '
   given(:question) { create(:question) }
 
   scenario "Author of question try to destroy question" do
-
     sign_in(user)
 
     visit question_path(user_question)
@@ -23,7 +22,6 @@ feature "Destroy question", '
   end
 
   scenario "User isn't author of question try to destroy question" do
-
     sign_in(user)
 
     visit question_path(question)
@@ -33,4 +31,3 @@ feature "Destroy question", '
     expect(current_path).to eq question_path(question)
   end
 end
-
