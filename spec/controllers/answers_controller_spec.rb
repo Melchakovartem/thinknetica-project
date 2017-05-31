@@ -39,13 +39,9 @@ RSpec.describe AnswersController, type: :controller do
         it "saves new answer in database" do
           expect do
             post :create,
-                 params: { question_id: question, answer: attributes_for(:answer).except(:question, :user) }
+                 params: { question_id: question, answer: attributes_for(:answer).except(:question, :user),
+                           format: :js }
           end.to change(question.answers, :count).by(1)
-        end
-
-        it "redirects to index view" do
-          post :create, params: { question_id: question, answer: attributes_for(:answer).except(:question, :user) }
-          expect(response).to redirect_to question_path(assigns(:question))
         end
       end
 
@@ -53,14 +49,9 @@ RSpec.describe AnswersController, type: :controller do
         it "doesn't saves new answer in database" do
           expect do
             post :create,
-                 params: { question_id: question, answer: { body: nil } }.not_to
+                 params: { question_id: question, answer: { body: nil }, format: :js }.not_to
             change(question.answerss, :count)
           end
-        end
-
-        it "re-renders new view" do
-          post :create, params: { question_id: question, answer: { body: nil } }
-          expect(response).to render_template :new
         end
       end
     end
