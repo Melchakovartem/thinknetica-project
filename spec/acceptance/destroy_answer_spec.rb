@@ -12,7 +12,6 @@ feature "Destroy answer", '
   given(:answer) { create(:answer, question: question) }
 
   scenario "Author of answer try to destroy answer" do
-
     sign_in(user)
 
     visit question_answer_path(question, user_answer)
@@ -24,7 +23,6 @@ feature "Destroy answer", '
   end
 
   scenario "User isn't author of answer try to destroy answer" do
-
     sign_in(user)
 
     visit question_answer_path(question, answer)
@@ -34,4 +32,3 @@ feature "Destroy answer", '
     expect(current_path).to eq question_answer_path(question, answer)
   end
 end
-

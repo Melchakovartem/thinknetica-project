@@ -4,7 +4,7 @@ feature "Create question", '
   In order to get answer from community
   As an user
   I want to be able to ask question
-  'do
+  ' do
   given(:user) { create(:user) }
 
   scenario "Authenticated user try to create question" do
@@ -22,7 +22,6 @@ feature "Create question", '
   end
 
   scenario "Anauthenticated user to create question" do
-
     visit questions_path
     click_on "Ask question"
 

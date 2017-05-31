@@ -21,7 +21,6 @@ feature "Answer to question", '
   end
 
   scenario "Unauthenticated user try to answer the question" do
-
     visit question_path(question)
     fill_in "Body", with: "Answer the question"
     click_on "Answer"

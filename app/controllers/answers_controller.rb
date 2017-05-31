@@ -3,8 +3,7 @@ class AnswersController < ApplicationController
   before_action :load_question
   before_action :load_answer, only: [:show, :destroy]
 
-  def show
-  end
+  def show; end
 
   def new
     @answer = @question.answers.new
@@ -15,7 +14,7 @@ class AnswersController < ApplicationController
     @answer.user_id = current_user.id
     if @answer.save
       redirect_to question_path(@question),
-      notice: "Your answer succefully created"
+                  notice: "Your answer succefully created"
     else
       render :new
     end
