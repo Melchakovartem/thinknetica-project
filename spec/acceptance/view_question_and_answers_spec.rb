@@ -1,4 +1,4 @@
-require "rails_helper"
+require_relative "acceptance_helper"
 
 feature "View question and answers", '
   In order to find correct answer to question

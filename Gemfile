@@ -54,13 +54,13 @@ group :test, :development do
   gem "factory_girl_rails"
   gem "rails-controller-testing"
   gem "rspec-rails"
-end
-
-group :test do
   gem "capybara"
   gem "database_cleaner"
   gem "launchy"
-  gem "selenium-webdriver", "2.53.4"
+  gem "capybara-webkit"
+end
+
+group :test do
   gem "shoulda-matchers"
 end
 

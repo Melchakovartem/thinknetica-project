@@ -1,4 +1,4 @@
-require "rails_helper"
+require_relative "acceptance_helper"
 
 feature "Destroy answer", '
   In order to delete the answer
