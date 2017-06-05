@@ -86,8 +86,7 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe "GET #show" do
-    let!(:question) { create(:question) }
-    let!(:answer) { create(:answer, question: question) }
+    let(:answer) { create(:answer, question: question) }
 
     before { get :show, params: { question_id: question, id: answer } }
 
@@ -104,7 +103,6 @@ RSpec.describe AnswersController, type: :controller do
     sign_in_user
 
     context "if user is author of answer" do
-      let(:question) { create(:question) }
       let(:answer) { create(:answer, question: question, user: @user) }
 
       before { delete :destroy, params: { question_id: question, id: answer } }
@@ -119,7 +117,6 @@ RSpec.describe AnswersController, type: :controller do
     end
 
     context "if user isn't author of question" do
-      let(:question) { create(:question) }
       let(:answer) { create(:answer, question: question) }
 
       before { delete :destroy, params: { question_id: question, id: answer } }
@@ -130,6 +127,68 @@ RSpec.describe AnswersController, type: :controller do
 
       it "redirects to index view" do
         expect(response).to redirect_to question_answer_path(question, answer)
+      end
+    end
+  end
+
+  describe "PATCH #update" do
+    context "Unauthenticated user" do
+      let(:answer) { create(:answer, question: question) }
+
+      before do
+        patch :update, params: { id: answer, question_id: question, answer: { body: "new body" } }, format: :js
+      end
+
+      it "doesn't assign the requested answer to @answer" do
+          expect(assigns(:answer)).to_not eq answer
+        end
+
+      it "doesn't change answer attributes" do
+        expect(answer.reload.body).to eq answer.body
+      end
+
+      it "responds with status :unauthorized" do
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context "Authenticated user" do
+      sign_in_user
+
+      context "Author of the answer" do
+        let!(:answer) { create(:answer, question: question, user: @user) }
+
+        before do
+          patch :update, params: { id: answer, question_id: question, answer: { body: "new body" } }, format: :js
+        end
+
+        it "assigns the requested answer to @answer" do
+          expect(assigns(:question)).to eq question
+        end
+
+        it "changes answer attributes" do
+          expect(answer.reload.body).to eq "new body"
+        end
+
+        it "render update template" do
+          expect(response).to render_template :update
+        end
+      end
+
+      context "if user isn't author of question" do
+        let(:answer) { create(:answer, question: question) }
+
+        before do
+          patch :update, params: { id: answer, question_id: question, answer: { body: "new body" } }, format: :js
+        end
+
+        it "doesn't change answer attributes" do
+          expect(answer.reload.body).to eq answer.body
+        end
+
+        it "render update template" do
+          expect(response).to render_template :update
+        end
       end
     end
   end

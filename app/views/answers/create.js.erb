@@ -1,1 +1,8 @@
-$(".answers").append("<p><%= @answer.body %></p>");
+<% if @answer.errors.present? %>
+  <% @answer.errors.full_messages.each do |message| %>
+    $(".answer-errors").html("<%= j message %>");
+  <% end %>
+<% else %>
+  $(".answers").append("<p><%= j @answer.body %></p>");
+  $("#answer_body").val("");
+<% end %>
