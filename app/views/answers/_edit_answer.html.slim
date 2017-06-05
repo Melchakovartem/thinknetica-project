@@ -1,0 +1,9 @@
+span class="answer-#{answer.id}"
+      p= answer.body
+      - if user_signed_in?
+        p= link_to 'Edit', '', class: 'edit-answer-link', data: { answer_id: answer.id } if current_user.id == answer.user_id
+        p
+          = form_for [@question, answer], remote: true, html: { id: "edit-answer-#{answer.id}" } do |f|
+            = f.label :body, "Answer"
+            = f.text_area :body
+            = f.submit "Save"

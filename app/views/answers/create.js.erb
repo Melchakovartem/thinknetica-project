@@ -3,6 +3,6 @@
     $(".answer-errors").html("<%= j message %>");
   <% end %>
 <% else %>
-  $(".answers").append("<p><%= j @answer.body %></p>");
+  $(".answers").append("<%= j render partial: 'answers/edit_answer', locals: { answer: @answer } %>");
   $("#answer_body").val("");
 <% end %>

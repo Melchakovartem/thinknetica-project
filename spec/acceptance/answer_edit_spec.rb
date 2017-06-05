@@ -19,28 +19,45 @@ feature "Answer editing" , "
   describe "Authenticated user" do
     before do
       sign_in user
-      visit question_path(question)
     end
 
-    scenario "sees link to Edit" do
-      within ".answers" do
-        expect(page).to have_link "Edit"
+    describe "is author of the answer" do
+      before do
+        answer.update(user_id: user.id)
+        visit question_path(question)
       end
-    end
 
-    scenario "try to edit his answer", js: true do
-      click_on "Edit"
-      within ".answers" do
+      scenario "sees link to Edit" do
+        within ".answers" do
+          expect(page).to have_link "Edit"
+        end
+      end
+
+      scenario "try to edit his answer", js: true do
+        click_on "Edit"
+
+        within ".answers" do
         fill_in "Answer", with: "edited answer"
-        click_on "Save"
+          click_on "Save"
 
-        expect(page).to_not have_content answer.body
-        expect(page).to have_content "edited answer"
-        expect(page).to_not have_selector "textarea"
+          expect(page).to_not have_content answer.body
+          expect(page).to have_content "edited answer"
+          expect(page).to_not have_selector "textarea"
+        end
       end
     end
 
-    scenario "try to edit other user's answer" do
+    describe "isn't author of the answer" do
+      before do
+        visit question_path(question)
+      end
+
+      scenario "try to edit other user's answer" do
+        within ".answers" do
+          expect(page).to have_content answer.body
+          expect(page).to_not have_link "Edit"
+        end
+      end
     end
   end
 end
