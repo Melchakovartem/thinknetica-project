@@ -139,10 +139,6 @@ RSpec.describe AnswersController, type: :controller do
         patch :update, params: { id: answer, question_id: question, answer: { body: "new body" } }, format: :js
       end
 
-      it "doesn't assign the requested answer to @answer" do
-          expect(assigns(:answer)).to_not eq answer
-        end
-
       it "doesn't change answer attributes" do
         expect(answer.reload.body).to eq answer.body
       end
@@ -162,10 +158,6 @@ RSpec.describe AnswersController, type: :controller do
           patch :update, params: { id: answer, question_id: question, answer: { body: "new body" } }, format: :js
         end
 
-        it "assigns the requested answer to @answer" do
-          expect(assigns(:question)).to eq question
-        end
-
         it "changes answer attributes" do
           expect(answer.reload.body).to eq "new body"
         end
@@ -178,16 +170,9 @@ RSpec.describe AnswersController, type: :controller do
       context "if user isn't author of question" do
         let(:answer) { create(:answer, question: question) }
 
-        before do
-          patch :update, params: { id: answer, question_id: question, answer: { body: "new body" } }, format: :js
-        end
-
         it "doesn't change answer attributes" do
+          patch :update, params: { id: answer, question_id: question, answer: { body: "new body" } }, format: :js
           expect(answer.reload.body).to eq answer.body
-        end
-
-        it "render update template" do
-          expect(response).to render_template :update
         end
       end
     end

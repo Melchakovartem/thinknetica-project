@@ -1,4 +1,6 @@
-- @questions.each do |q|
-  p= q.title
+.questions
 
-p= link_to "Ask question", new_question_path
+  - @questions.each do |q|
+    = render partial: "questions/edit_question", locals: { question: q }
+
+  p= link_to "Ask question", new_question_path

@@ -132,4 +132,51 @@ RSpec.describe QuestionsController, type: :controller do
       end
     end
   end
+
+  describe "PATCH #update" do
+    context "Unauthenticated user" do
+      let(:question) { create(:question) }
+
+      before do
+        patch :update, params: { id: question, question: { body: "new body" } }, format: :js
+      end
+
+      it "doesn't change question attributes" do
+        expect(question.reload.body).to eq question.body
+      end
+
+      it "responds with status :unauthorized" do
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context "Authenticated user" do
+      sign_in_user
+
+      context "Author of the answer" do
+        let!(:question) { create(:question, user: @user) }
+
+        before do
+          patch :update, params: { id: question, question: { body: "new body" } }, format: :js
+        end
+
+        it "changes question attributes" do
+          expect(question.reload.body).to eq "new body"
+        end
+
+        it "render update template" do
+          expect(response).to render_template :update
+        end
+      end
+
+      context "if user isn't author of question" do
+        let!(:question) { create(:question) }
+
+        it "doesn't change question attributes" do
+          patch :update, params: { id: question, question: { body: "new body" } }, format: :js
+          expect(question.reload.body).to eq question.body
+        end
+      end
+    end
+  end
 end
