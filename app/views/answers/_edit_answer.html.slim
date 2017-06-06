@@ -2,6 +2,7 @@ span class="answer-#{answer.id}"
       p= answer.body
       - if user_signed_in? and current_user.id == answer.user_id
         p= link_to 'Edit', '', class: 'edit-answer-link', data: { answer_id: answer.id }
+        p= link_to "Delete", question_answer_path(@question, answer), method: "delete", remote: true
         p
           = form_for [@question, answer], remote: true, html: { id: "edit-answer-#{answer.id}" } do |f|
             = f.label :body, "Answer"

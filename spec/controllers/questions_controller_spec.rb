@@ -112,10 +112,6 @@ RSpec.describe QuestionsController, type: :controller do
       it "checks record in database" do
         expect(Question.where(id: question.id)).not_to exist
       end
-
-      it "redirects to index view" do
-        expect(response).to redirect_to questions_path
-      end
     end
 
     context "if user isn't author of question" do

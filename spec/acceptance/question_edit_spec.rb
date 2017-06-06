@@ -9,7 +9,7 @@ feature "Question editing" , "
   given(:user) { create(:user) }
   given!(:question) { create(:question) }
 
-  scenario "Unathenticated user try to edit question" do
+  scenario "Unathenticated user try to edit question", js: true do
     visit questions_path
 
     expect(page).to_not have_link "Edit"
@@ -52,7 +52,7 @@ feature "Question editing" , "
         visit questions_path
       end
 
-      scenario "try to edit other user's answer" do
+      scenario "try to edit other user's answer", js: true do
         within ".questions" do
           expect(page).to have_content question.title
           expect(page).to_not have_link "Edit"

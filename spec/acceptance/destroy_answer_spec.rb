@@ -8,27 +8,37 @@ feature "Destroy answer", '
 
   given(:user) { create(:user) }
   given(:question) { create(:question) }
-  given(:user_answer) { create(:answer, user: user, question: question) }
   given(:answer) { create(:answer, question: question) }
 
-  scenario "Author of answer try to destroy answer" do
-    sign_in(user)
+  describe "Author of answer" do
+    before do
+      sign_in user
+      answer.update(user: user)
+      visit question_path(question)
+    end
 
-    visit question_answer_path(question, user_answer)
-    click_on "Delete"
+    scenario "sees link to Delete", js: true do
+      within ".answers" do
+        expect(page).to have_link "Delete"
+      end
+    end
 
-    expect(page).to have_content "Your answer succesfully deleted"
-    expect(page).not_to have_content answer.body
-    expect(current_path).to eq question_path(question)
+    scenario "try to delete his answer", js: true do
+      within ".answers" do
+        click_on "Delete"
+
+        expect(page).to_not have_content answer.body
+      end
+    end
   end
 
-  scenario "User isn't author of answer try to destroy answer" do
-    sign_in(user)
+  scenario "User isn't author of answer try to destroy answer", js: true do
+    sign_in user
 
-    visit question_answer_path(question, answer)
-    click_on "Delete"
+    visit question_path(question)
 
-    expect(page).to have_content "You haven't rights for this action"
-    expect(current_path).to eq question_answer_path(question, answer)
+    within ".answers" do
+      expect(page).to_not have_link "Delete"
+    end
   end
 end
