@@ -1,7 +1,7 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!, except: [:show, :index]
-  before_action :load_question
-  before_action :load_answer, only: [:show, :update, :destroy]
+  before_action :load_question, except: [:select]
+  before_action :load_answer, only: [:show, :update, :destroy, :select]
 
   def show; end
 
@@ -31,6 +31,13 @@ class AnswersController < ApplicationController
     end
   end
 
+  def select
+    @question = @answer.question
+    if current_user.id == @question.user_id
+      @question.update(best_answer_id: @answer.id)
+    end
+  end
+
   private
 
     def load_question
@@ -42,6 +49,6 @@ class AnswersController < ApplicationController
     end
 
     def load_answer
-      @answer = @question.answers.find(params[:id])
+      @answer = Answer.find(params[:id])
     end
 end

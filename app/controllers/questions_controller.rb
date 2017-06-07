@@ -20,6 +20,9 @@ class QuestionsController < ApplicationController
   def show
     @answer = @question.answers.new
     @answers = @question.answers.all
+    if @question.best_answer_id
+      @best_answer = @answers.find(@question.best_answer_id)
+    end
   end
 
   def index

@@ -167,4 +167,61 @@ RSpec.describe AnswersController, type: :controller do
       end
     end
   end
+
+  describe "PATCH #select" do
+    context "Unauthenticated user" do
+      let!(:question) { create(:question) }
+      let!(:answer) { create(:answer, question: question) }
+
+
+      it "doesn't set best answer for question" do
+        patch :select, params: { id: answer, question_id: question }, format: :js
+        expect(question.reload.best_answer_id).to be_nil
+      end
+
+      it "doesn't set best answer for question" do
+        expect(question.reload.best_answer_id).to be_nil
+      end
+    end
+
+    context "Authenticated user" do
+      sign_in_user
+
+      context "Author of the question" do
+        let!(:question) { create(:question, user: @user) }
+        let(:first_answer) { create(:answer, question: question) }
+        let(:second_answer) { create(:answer, question: question) }
+
+        context "if question is not selected" do
+          it "sets best answer for question" do
+            patch :select, params: { id: first_answer, question_id: question }, format: :js
+            expect(question.reload.best_answer_id).to eq first_answer.id
+          end
+        end
+
+        context "if question is selected" do
+          let(:second_answer) { create(:answer, question: question) }
+
+          before do
+            question.update(best_answer_id: first_answer.id)
+            patch :select, params: { id: second_answer, question_id: question }, format: :js
+          end
+
+          it "sets best answer for question" do
+            expect(question.reload.best_answer_id).to eq second_answer.id
+          end
+        end
+      end
+
+      context "if user isn't author of question" do
+        let!(:question) { create(:question) }
+        let(:answer) { create(:answer, question: question) }
+
+        it "doesn't set best answer for question" do
+          patch :select, params: { id: answer, question_id: question }, format: :js
+          expect(question.reload.best_answer_id).to be_nil
+        end
+      end
+    end
+  end
 end
