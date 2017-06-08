@@ -1,1 +1,3 @@
+$(".answers:first div").attr('class', 'other_answer');
+$(".answer-<%= @answer.id %> div").attr('class', 'best_answer');
 $(".answer-<%= @answer.id %>").prependTo(".answers:first");

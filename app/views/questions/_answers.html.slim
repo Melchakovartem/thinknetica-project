@@ -1,4 +1,3 @@
-= render partial: "answers/edit_answer", locals: { answer: @best_answer } if @best_answer
 - @answers.each do |answer|
-  - if answer.persisted? and answer != @best_answer
+  - if answer.persisted?
     = render partial: "answers/edit_answer", locals: { answer: answer }

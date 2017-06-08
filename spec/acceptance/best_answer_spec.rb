@@ -38,6 +38,7 @@ feature "Select best answer" , "
           page.find(".answer-#{first_answer.id}").click_on "Select"
 
           expect(page.find('span:first-child')).to have_content first_answer.body
+          expect(page.find('span:first-child')).to have_css(".best_answer")
       end
 
 
@@ -47,6 +48,7 @@ feature "Select best answer" , "
           find(".answer-#{second_answer.id}").click_on "Select"
 
           expect(page.find('span:first-child')).to have_content second_answer.body
+          expect(page.find('span:first-child')).to have_css(".best_answer")
         end
       end
     end

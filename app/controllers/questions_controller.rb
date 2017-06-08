@@ -19,8 +19,7 @@ class QuestionsController < ApplicationController
 
   def show
     @answer = @question.answers.new
-    @answers = @question.answers.all
-    @best_answer = @answers.where(best: true).first
+    @answers = @question.answers.order(best: :desc)
   end
 
   def index
@@ -28,13 +27,12 @@ class QuestionsController < ApplicationController
   end
 
   def update
-    if @question.user_id == current_user.id
-      @question.update(question_params)
-    end
+    return unless @question.is_author?(current_user)
+    @question.update(question_params)
   end
 
   def destroy
-    if current_user.id == @question.user_id
+    if @question.is_author?(current_user)
       @question.destroy
       redirect_to questions_path, notice: "Your question succesfully deleted"
     else

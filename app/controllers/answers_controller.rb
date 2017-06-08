@@ -20,7 +20,7 @@ class AnswersController < ApplicationController
   end
 
   def update
-    if @answer.user_id == current_user.id
+    if @answer.is_author?(current_user)
       @answer.update(answer_params)
     end
   end
@@ -32,10 +32,10 @@ class AnswersController < ApplicationController
   end
 
   def select
-    if current_user.id == @question.user_id
+    return unless @question.is_author?(current_user)
+    ActiveRecord::Base.transaction do
       @question.answers.update_all(best: false)
       @answer.update(best: true)
-      @answer.save
     end
   end
 

@@ -4,4 +4,8 @@ class Question < ApplicationRecord
   belongs_to :user
 
   validates :title, :body, presence: true
+
+  def is_author?(user)
+    user.id == user_id
+  end
 end
