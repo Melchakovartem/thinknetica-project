@@ -195,7 +195,7 @@ RSpec.describe AnswersController, type: :controller do
         context "if question is not selected" do
           it "sets best answer for question" do
             patch :select, params: { id: first_answer, question_id: question }, format: :js
-            expect(question.reload.best_answer_id).to eq first_answer.id
+            expect(first_answer.reload.best).to be_truthy
           end
         end
 
@@ -208,7 +208,11 @@ RSpec.describe AnswersController, type: :controller do
           end
 
           it "sets best answer for question" do
-            expect(question.reload.best_answer_id).to eq second_answer.id
+            expect(second_answer.reload.best).to be_truthy
+          end
+
+          it "checks only one question is best" do
+            expect(first_answer.reload.best).to be_falsey
           end
         end
       end

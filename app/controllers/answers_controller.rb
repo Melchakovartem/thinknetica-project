@@ -1,6 +1,6 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!, except: [:show, :index]
-  before_action :load_question, except: [:select]
+  before_action :load_question
   before_action :load_answer, only: [:show, :update, :destroy, :select]
 
   def show; end
@@ -32,9 +32,10 @@ class AnswersController < ApplicationController
   end
 
   def select
-    @question = @answer.question
     if current_user.id == @question.user_id
-      @question.update(best_answer_id: @answer.id)
+      @question.answers.update_all(best: false)
+      @answer.update(best: true)
+      @answer.save
     end
   end
 

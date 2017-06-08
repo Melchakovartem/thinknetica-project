@@ -1,5 +1,4 @@
-.best_answer
-  = render partial: "answers/edit_answer", locals: { answer: @best_answer } if @best_answer
+= render partial: "answers/edit_answer", locals: { answer: @best_answer } if @best_answer
 rais
 - @answers.each do |answer|
   - if answer.persisted? and answer != @best_answer
