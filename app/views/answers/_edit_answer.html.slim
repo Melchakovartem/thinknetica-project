@@ -12,12 +12,3 @@ span class="answer-#{answer.id}"
               = f.label :body, "Answer"
               = f.text_area :body
               = f.submit "Save"
-
-
-javascript:
-  $('.edit-answer-link').click(function(e) {
-        e.preventDefault();
-        $(this).hide();
-        answer_id = $(this).data('answerId');
-        $('form#edit-answer-' + answer_id).show();
-    });

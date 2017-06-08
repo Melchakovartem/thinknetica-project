@@ -4,7 +4,7 @@
 
 
 ready = ->
-  $('.edit-answer-link').click (e) ->
+  $('.answers').on 'click','a.edit-answer-link', (e) ->
     e.preventDefault();
     $(this).hide();
     answer_id = $(this).data('answerId');
