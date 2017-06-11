@@ -8,4 +8,11 @@ class Question < ApplicationRecord
   def is_author?(user)
     user.id == user_id
   end
+
+  def select_answer(answer)
+    ActiveRecord::Base.transaction do
+      answers.update_all(best: false)
+      answer.update(best: true)
+    end
+  end
 end

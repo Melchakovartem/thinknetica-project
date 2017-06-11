@@ -33,10 +33,7 @@ class AnswersController < ApplicationController
 
   def select
     return unless @question.is_author?(current_user)
-    ActiveRecord::Base.transaction do
-      @question.answers.update_all(best: false)
-      @answer.update(best: true)
-    end
+    @question.select_answer(@answer)
   end
 
   private
