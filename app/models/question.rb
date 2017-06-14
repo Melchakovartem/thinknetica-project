@@ -12,7 +12,7 @@ class Question < ApplicationRecord
   def select_answer(answer)
     ActiveRecord::Base.transaction do
       answers.update_all(best: false)
-      answer.update(best: true)
+      answer.update!(best: true)
     end
   end
 end

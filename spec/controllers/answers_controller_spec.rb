@@ -176,11 +176,7 @@ RSpec.describe AnswersController, type: :controller do
 
       it "doesn't set best answer for question" do
         patch :select, params: { id: answer, question_id: question }, format: :js
-        expect(question.reload.best_answer_id).to be_nil
-      end
-
-      it "doesn't set best answer for question" do
-        expect(question.reload.best_answer_id).to be_nil
+        expect(answer.reload.best).to be_falsey
       end
     end
 
@@ -203,7 +199,7 @@ RSpec.describe AnswersController, type: :controller do
           let(:second_answer) { create(:answer, question: question) }
 
           before do
-            question.update(best_answer_id: first_answer.id)
+            first_answer.update(best: :true)
             patch :select, params: { id: second_answer, question_id: question }, format: :js
           end
 
@@ -223,7 +219,7 @@ RSpec.describe AnswersController, type: :controller do
 
         it "doesn't set best answer for question" do
           patch :select, params: { id: answer, question_id: question }, format: :js
-          expect(question.reload.best_answer_id).to be_nil
+          expect(answer.reload.best).to be_falsey
         end
       end
     end
