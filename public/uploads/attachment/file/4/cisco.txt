@@ -1,0 +1,31 @@
+interface GigabitEthernet2/21
+ description VPN-PIX_NEW1
+ switchport
+ switchport trunk encapsulation dot1q
+ switchport trunk allowed vlan 4,13,203,205,350
+ switchport mode trunk
+ no snmp trap link-status
+ channel-protocol lacp
+ channel-group 16 mode active
+end
+
+interface GigabitEthernet2/22
+ description VPN-PIX_NEW1
+ switchport
+ switchport trunk encapsulation dot1q
+ switchport trunk allowed vlan 4,13,203,205,350
+ switchport mode trunk
+ no snmp trap link-status
+ channel-protocol lacp
+ channel-group 16 mode active
+end
+
+interface GigabitEthernet2/23
+ description OMC_CN_2
+ switchport
+ switchport access vlan 4
+end
+
+interface GigabitEthernet3/40
+ 2
+end

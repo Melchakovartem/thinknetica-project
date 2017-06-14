@@ -1,8 +1,13 @@
 span class="answer-#{answer.id}"
     div class=(answer.best ? "best_answer" : "other_answer")
       p= answer.body
+      ul
+        -answer.attachments.each do |a|
+          li= link_to a.file.filename, a.file.url
+
     - if user_signed_in?
       - if @question.is_author?(current_user)
+        ul
         p= link_to "Select", select_question_answer_path(@question, answer), method: "patch", remote: true
 
       - if  answer.is_author?(current_user)

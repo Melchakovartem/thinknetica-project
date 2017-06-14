@@ -1,7 +1,7 @@
 div
  h1= - @question.title
  p= - @question.body
- p Attachments
+ p Attachments:
  ul
    -@question.attachments.each do |a|
      li= link_to a.file.filename, a.file.url
@@ -15,4 +15,9 @@ div
   = f.label :body
   .answer-errors
   = f.text_area :body
+  p Attachments :
+  p
+    = f.fields_for :attachments do |a|
+      = a.label :file
+      = a.file_field :file
   = f.submit "Answer"

@@ -13,3 +13,11 @@
  *= require_tree .
  *= require_self
  */
+body {
+    margin-right: 5%; /* Отступ справа */
+    margin-left: 5%; /* Отступ слева */
+   }
+
+li {
+    display: inline;
+   }
