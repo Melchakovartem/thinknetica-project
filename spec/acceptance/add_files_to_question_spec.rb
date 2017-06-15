@@ -24,7 +24,7 @@ feature 'Add files to question', %q{
 
     click_on 'Create'
 
-    expect(page).to have_link "rails_helper.rb", href: '/uploads/attachment/file/1/rails_helper.rb'
-    expect(page).to have_link "spec_helper.rb", href: '/uploads/attachment/file/2/spec_helper.rb'
+    expect(page).to have_link "rails_helper.rb"
+    expect(page).to have_link "spec_helper.rb"
   end
 end
