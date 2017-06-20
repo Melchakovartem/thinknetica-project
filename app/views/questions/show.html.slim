@@ -6,10 +6,10 @@ div
 
 
     -if user_signed_in?
+      = render partial: "vote", locals: { model: @question }
+
       -if @question.is_author?(current_user)
         = link_to "Delete", question_path(@question), method: "delete"
-      .vote
-        = render partial: "vote", locals: { model: @question }
 
 .answers
  = render "answers"

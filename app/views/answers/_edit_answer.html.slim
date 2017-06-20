@@ -4,6 +4,8 @@ span class="answer-#{answer.id}"
       = render partial: "attachments", locals: { model: answer }
 
     - if user_signed_in?
+      = render partial: "vote", locals: { model: answer }
+
       - if @question.is_author?(current_user)
         p= link_to "Select", select_question_answer_path(@question, answer), method: "patch", remote: true
 

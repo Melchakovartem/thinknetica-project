@@ -8,11 +8,12 @@ feature "Vote for answer" , "
 
   given(:user) { create(:user) }
   given!(:question) { create(:question) }
+  given!(:answer) { create(:answer, question: question) }
 
-  scenario "Unathenticated user try to vote for question", js: true do
+  scenario "Unathenticated user try to vote for answer", js: true do
     visit question_path(question)
 
-    within ".question" do
+    within ".answers" do
       expect(page).to_not have_content "+1"
       expect(page).to_not have_content "-1"
       expect(page).to_not have_content "Reset"
@@ -25,10 +26,10 @@ feature "Vote for answer" , "
       sign_in user
     end
 
-    scenario "Not author try to vote for question", js: true do
+    scenario "Not author try to vote for answer", js: true do
       visit question_path(question)
 
-      within ".question" do
+      within ".answers" do
         click_on "+1"
         expect(page).to_not have_content "+1"
         expect(page).to_not have_content "-1"
@@ -46,12 +47,12 @@ feature "Vote for answer" , "
       end
     end
 
-    scenario "Author try to vote for question", js: true do
-      question.update(user_id: user.id)
+    scenario "Author try to vote for answer", js: true do
+      answer.update(user_id: user.id)
 
       visit question_path(question)
 
-      within ".question" do
+      within ".answers" do
         expect(page).to_not have_content "+1"
         expect(page).to_not have_content "-1"
         expect(page).to_not have_content "Reset"
