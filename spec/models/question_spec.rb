@@ -6,6 +6,7 @@ RSpec.describe Question, type: :model do
 
   it { should have_many(:answers) }
   it { should have_many :attachments }
+  it { should have_many :votes }
 
   it { should belong_to(:user) }
 end

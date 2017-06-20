@@ -10,6 +10,7 @@ ready = ->
     answer_id = $(this).data('answerId');
     $('form#edit-answer-' + answer_id).show();
 
+
 $(document).ready(ready);
 $(document).on('page:load', ready);
 $(document).on('page:update', ready);

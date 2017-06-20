@@ -14,7 +14,10 @@ feature "Destroy question", '
     sign_in(user)
 
     visit question_path(user_question)
-    click_on "Delete"
+
+    within ".question" do
+      click_on "Delete"
+    end
 
     expect(page).to have_content "Your question succesfully deleted"
     expect(page).not_to have_content question.body
@@ -25,9 +28,9 @@ feature "Destroy question", '
     sign_in(user)
 
     visit question_path(question)
-    click_on "Delete"
 
-    expect(page).to have_content "You haven't rights for this action"
-    expect(current_path).to eq question_path(question)
+    within ".question" do
+      expect(page).to_not have_content "Delete"
+    end
   end
 end

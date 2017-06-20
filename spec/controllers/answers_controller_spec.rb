@@ -2,6 +2,7 @@ require "rails_helper"
 
 RSpec.describe AnswersController, type: :controller do
   let(:question) { create(:question) }
+  let(:attachment) { create(:attachment) }
 
   describe "GET #new" do
     context "if authenticated user" do
