@@ -33,6 +33,16 @@ RSpec.describe VotesController, type: :controller do
               end.not_to change(Vote, :count)
             end
           end
+
+          context "if user has already voted" do
+            let!(:vote) { create(:vote, votable_id: question.id, votable_type: question.class.name, user: @user, value: 1) }
+
+            it "doesn't save new like vote to database" do
+              expect do
+                post :create, params: { vote: {votable_id: question, value: 1, votable_type: question.class.name }, format: :js }
+              end.to_not change(Vote, :count)
+            end
+          end
         end
 
         context "if user is author of question" do
@@ -102,6 +112,17 @@ RSpec.describe VotesController, type: :controller do
             expect do
               post :create, params: { vote: {votable_id: answer, value: 1, votable_type: answer.class.name }, format: :js }
             end.not_to change(Vote, :count)
+          end
+        end
+
+        context "if user has already voted" do
+          let(:answer) { create(:answer, user: @user) }
+          let!(:vote) { create(:vote, votable_id: answer.id, votable_type: answer.class.name, user: @user, value: 1) }
+
+          it "doesn't save new like vote to database" do
+            expect do
+              post :create, params: { vote: {votable_id: answer, value: 1, votable_type: answer.class.name }, format: :js }
+            end.to_not change(Vote, :count)
           end
         end
       end

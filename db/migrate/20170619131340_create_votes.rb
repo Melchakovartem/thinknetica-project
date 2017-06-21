@@ -10,6 +10,7 @@ class CreateVotes < ActiveRecord::Migration[5.0]
     end
 
     add_index :votes, [:votable_id, :votable_type]
+    add_index :votes, [:votable_id, :votable_type, :user_id], unique: true
     add_index :votes, :user_id
   end
 end
