@@ -1,7 +1,5 @@
 span class="vote-#{model.class.name.underscore}-#{model.id}"
   -unless model.is_author?(current_user)
-    -if model.has_vote_from_user(current_user)
-      = link_to "Reset", vote_path(model.has_vote_from_user(current_user)), method: "delete", remote: true
-    -else
-      = link_to "+1", votes_path(vote: {votable_id: model.id, votable_type: model.class.name, value: 1 }), method: "post", remote: true
-      = link_to "-1", votes_path(vote: {votable_id: model.id, votable_type: model.class.name, value: -1 }), method: "post", remote: true
+    = link_to 'Reset', '#', class: "vote-link-reset", id: "vlr-#{model.class.name.underscore}-#{model.id}", data: { votable_id: model.id, votable_type: "#{ model.class.name }" }, style: "display: #{ model.has_vote_from_user(current_user) ? '' : 'none' }"
+    = link_to '+1', '#', class: 'vote-link', id: "like-vl-#{model.class.name.underscore}-#{model.id}", data: { value: 1, votable_id: model.id, votable_type: "#{ model.class.name }" }, style: "display: #{ model.has_vote_from_user(current_user) ? 'none' : '' }"
+    = link_to '-1', '#', class: 'vote-link', id: "dislike-vl-#{model.class.name.underscore}-#{model.id}", data: { value: -1, votable_id: model.id, votable_type: "#{ model.class.name }" }, style: "display: #{ model.has_vote_from_user(current_user) ? 'none' : '' }"

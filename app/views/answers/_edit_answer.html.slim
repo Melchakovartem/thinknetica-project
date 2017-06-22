@@ -1,6 +1,11 @@
 span class="answer-#{answer.id}"
     div class=(answer.best ? "best_answer" : "other_answer")
       p= answer.body
+      p
+        | Rating:
+        p class="rating-#{answer.class.name.underscore}-#{answer.id}"
+          =< answer.rating
+
       = render partial: "attachments", locals: { model: answer }
 
     - if user_signed_in?

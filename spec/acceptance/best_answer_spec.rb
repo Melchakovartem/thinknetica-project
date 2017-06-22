@@ -35,20 +35,23 @@ feature "Select best answer" , "
       end
 
       scenario "try to select best answer if answer is not selected", js: true do
-          page.find(".answer-#{first_answer.id}").click_on "Select"
+        within ".answers" do
+          find(".answer-#{first_answer.id}").click_on "Select"
 
-          expect(page.find('span:first-child')).to have_content first_answer.body
-          expect(page.find('span:first-child')).to have_css(".best_answer")
+          expect(find('span:first-child')).to have_content first_answer.body
+          expect(find('span:first-child')).to have_css(".best_answer")
+        end
       end
 
 
       scenario "try to select best answer if answer is selected", js: true do
+
         within ".answers" do
           find(".answer-#{first_answer.id}").click_on "Select"
           find(".answer-#{second_answer.id}").click_on "Select"
 
-          expect(page.find('span:first-child')).to have_content second_answer.body
-          expect(page.find('span:first-child')).to have_css(".best_answer")
+          expect(find('span:first-child')).to have_content second_answer.body
+          expect(find('span:first-child')).to have_css(".best_answer")
         end
       end
     end

@@ -7,7 +7,10 @@ Rails.application.routes.draw do
   end
 
   resources :attachments, only: [:destroy]
-  resources :votes, only: [:create, :destroy]
+
+  resources :votes, only: [:create] do
+    delete :destroy, on: :collection
+  end
 
   root to: "questions#index"
 end

@@ -6,12 +6,14 @@ class VotesController < ApplicationController
   def create
     return if @votable.is_author?(current_user)
     vote = current_user.votes.create(votable_params)
+    render json: @votable.rating
   end
 
   def destroy
     return unless @vote.is_author?(current_user)
+    votable = @vote.votable
     @vote.destroy
-    @votable = @vote.votable
+    render json: votable.rating
   end
 
   private
@@ -21,7 +23,7 @@ class VotesController < ApplicationController
     end
 
     def load_vote
-      @vote = Vote.find(params[:id])
+      @vote = Vote.where(votable_params.except(:value)).first
     end
 
     def load_votable

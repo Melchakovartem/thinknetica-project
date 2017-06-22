@@ -16,6 +16,7 @@ feature "Vote for answer" , "
       expect(page).to_not have_content "+1"
       expect(page).to_not have_content "-1"
       expect(page).to_not have_content "Reset"
+      expect(page).to have_content "Rating: 0"
     end
   end
 
@@ -33,16 +34,19 @@ feature "Vote for answer" , "
         expect(page).to_not have_content "+1"
         expect(page).to_not have_content "-1"
         expect(page).to have_content "Reset"
+        expect(page).to have_content "Rating: 1"
 
         click_on "Reset"
         expect(page).to have_content "+1"
         expect(page).to have_content "-1"
         expect(page).to_not have_content "Reset"
+        expect(page).to have_content "Rating: 0"
 
         click_on "-1"
         expect(page).to_not have_content "+1"
         expect(page).to_not have_content "-1"
         expect(page).to have_content "Reset"
+        expect(page).to have_content "Rating: -1"
       end
     end
 
@@ -55,6 +59,7 @@ feature "Vote for answer" , "
         expect(page).to_not have_content "+1"
         expect(page).to_not have_content "-1"
         expect(page).to_not have_content "Reset"
+        expect(page).to have_content "Rating: 0"
       end
     end
   end

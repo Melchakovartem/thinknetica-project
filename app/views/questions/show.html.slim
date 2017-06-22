@@ -2,6 +2,10 @@ div
   h1= - @question.title
   .question
     p= - @question.body
+    p
+      | Rating:
+      span class="rating-#{@question.class.name.underscore}-#{@question.id}"
+        =< @question.rating
     = render partial: "attachments", locals: { model: @question }
 
 
