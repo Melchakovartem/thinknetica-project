@@ -1,7 +1,8 @@
 class Question < ApplicationRecord
+  include Votable
+
   has_many :answers, dependent: :destroy
   has_many :attachments, as: :attachmentable
-  has_many :votes, as: :votable, dependent: :destroy
 
   belongs_to :user
 
@@ -18,13 +19,5 @@ class Question < ApplicationRecord
       answers.update_all(best: false)
       answer.update!(best: true)
     end
-  end
-
-  def has_vote_from_user(user)
-    votes.find_by(user_id: user.id)
-  end
-
-  def rating
-    votes.sum(&:value)
   end
 end
