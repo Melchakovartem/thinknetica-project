@@ -1,9 +1,10 @@
 class Answer < ApplicationRecord
+  include Votable
+
   belongs_to :question
   belongs_to :user
 
   has_many :attachments, as: :attachmentable, dependent: :destroy
-  has_many :votes, as: :votable, dependent: :destroy
 
   validates :body, presence: true
 
@@ -13,11 +14,4 @@ class Answer < ApplicationRecord
     user.id == user_id
   end
 
-  def has_vote_from_user(user)
-    votes.find_by(user_id: user.id)
-  end
-
-  def rating
-    votes.sum(&:value)
-  end
 end

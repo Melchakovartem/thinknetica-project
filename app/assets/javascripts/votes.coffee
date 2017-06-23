@@ -16,31 +16,27 @@ vote = ->
           value: value
           votable_type: votable_type
           votable_id: votable_id
-      success: (rating) ->
-        $('#vlr-' + votable_type.toLowerCase() + '-' + votable_id).show()
+      success: (data) ->
+        $('#vlr-' + votable_type.toLowerCase() + '-' + votable_id).data("id", data.vote_id).show()
         $('#like-vl-' + votable_type.toLowerCase() + '-' + votable_id).hide()
         $('#dislike-vl-' + votable_type.toLowerCase() + '-' + votable_id).hide()
-        $('.rating-' + votable_type.toLowerCase() + '-' + votable_id).html(rating)
+        $('.rating-' + votable_type.toLowerCase() + '-' + votable_id).html(data.rating)
 
   $(document).on 'click', '.vote-link-reset', (e) ->
-    e.preventDefault()
-    votable_id =  $(this).data('votable-id')
-    votable_type =  $(this).data('votable-type')
+    e.preventDefault();
+    id =  $(this).data('id')
     $.ajax
       type: "DELETE"
-      url: "/votes"
-      data:
-        vote:
-          votable_type: votable_type
-          votable_id: votable_id
-      success: (rating) ->
-        $('#vlr-' + votable_type.toLowerCase() + '-' + votable_id).hide()
-        $('#like-vl-' + votable_type.toLowerCase() + '-' + votable_id).show()
-        $('#dislike-vl-' + votable_type.toLowerCase() + '-' + votable_id).show()
-        $('.rating-' + votable_type.toLowerCase() + '-' + votable_id).html(rating)
+      url: "/votes/"+id
+      success: (data) ->
+        $('#vlr-' + data.votable_type.toLowerCase() + '-' + data.votable_id).hide()
+        $('#like-vl-' + data.votable_type.toLowerCase() + '-' + data.votable_id).show()
+        $('#dislike-vl-' + data.votable_type.toLowerCase() + '-' + data.votable_id).show()
+        $('.rating-' + data.votable_type.toLowerCase() + '-' + data.votable_id).html(data.rating)
 
 
 
-$(document).on('turbolinks:load', vote)
+$(document).on('turbolinks:load', vote);
+$(document).on('turbolinks:update', vote);
 $(document).on('page:load', vote);
 $(document).on('page:update', vote);

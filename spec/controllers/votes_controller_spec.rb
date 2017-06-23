@@ -27,9 +27,15 @@ RSpec.describe VotesController, type: :controller do
           end
 
           context "with invalid attributes" do
-            it "doesn't save new like vote to database" do
+            it "doesn't save new vote to database if incorrect value" do
               expect do
                 post :create, params: { vote: {votable_id: question, value: 0, votable_type: question.class.name }, format: :js }
+              end.not_to change(Vote, :count)
+            end
+
+            it "doesn't save new vote to database if incorrect votable_type" do
+              expect do
+                post :create, params: { vote: {votable_id: question, value: 1, votable_type: "incorrect" }, format: :js }
               end.not_to change(Vote, :count)
             end
           end
@@ -97,7 +103,7 @@ RSpec.describe VotesController, type: :controller do
           end
 
           context "with invalid attributes" do
-            it "doesn't save new like vote to database" do
+            it "doesn't save new vote to database" do
               expect do
                 post :create, params: { vote: {votable_id: answer, value: 0, votable_type: answer.class.name }, format: :js }
               end.not_to change(Vote, :count)
@@ -159,7 +165,7 @@ RSpec.describe VotesController, type: :controller do
 
           it "deletes vote from database" do
             expect do
-              delete :destroy, params: { vote: {votable_id: question, votable_type: question.class.name }, format: :js }
+              delete :destroy, params: { id: vote, format: :js }
             end.to change(Vote, :count).by(-1)
           end
         end
@@ -170,7 +176,7 @@ RSpec.describe VotesController, type: :controller do
 
           it "deletes vote from database" do
             expect do
-              delete :destroy, params: { vote: {votable_id: question, votable_type: question.class.name }, format: :js }
+              delete :destroy,  params: { id: vote, format: :js }
             end.to_not change(Vote, :count)
           end
         end
@@ -181,7 +187,7 @@ RSpec.describe VotesController, type: :controller do
 
         it "doesn't delete vote from database" do
           expect do
-            delete :destroy, params: { vote: {votable_id: question, votable_type: question.class.name }, format: :js }
+            delete :destroy,  params: { id: vote, format: :js }
           end.to_not change(Vote, :count)
         end
       end
@@ -200,7 +206,7 @@ RSpec.describe VotesController, type: :controller do
 
           it "deletes vote from database" do
             expect do
-              delete :destroy, params: { vote: {votable_id: answer, votable_type: answer.class.name }, format: :js }
+              delete :destroy,  params: { id: vote, format: :js }
             end.to change(Vote, :count).by(-1)
           end
         end
@@ -210,7 +216,7 @@ RSpec.describe VotesController, type: :controller do
 
           it "deletes vote from database" do
             expect do
-              delete :destroy, params: { vote: {votable_id: answer, votable_type: answer.class.name }, format: :js }
+              delete :destroy, params: { id: vote, format: :js }
             end.to_not change(Vote, :count)
           end
         end
@@ -221,7 +227,7 @@ RSpec.describe VotesController, type: :controller do
 
         it "doesn't delete vote from database" do
           expect do
-            delete :destroy, params: { vote: {votable_id: answer, votable_type: answer.class.name }, format: :js }
+            delete :destroy,  params: { id: vote, format: :js }
           end.to_not change(Vote, :count)
         end
       end
