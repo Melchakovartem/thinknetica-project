@@ -17,3 +17,8 @@
 //= require_tree .
 //= require turbolinks
 //= require cocoon
+//= require action_cable
+
+var App = App || {}
+App.cable = ActionCable.createConsumer()
+

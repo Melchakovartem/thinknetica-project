@@ -1,0 +1,19 @@
+span class="question-#{@question.id}"
+  p
+    a href="/questions/#{@question.id}" =@question.title
+  - if gon.user and gon.user.id == @question.user_id
+    p
+      a class="edit-question-link" data-question-id="#{@question.id}" ="Edit"
+    p
+      <form id="edit-question-#{@question.id}" class="edit_question" action="/questions/#{@question.id}" accept-charset="UTF-8" data-remote="true" method="post">
+        <input name="utf8" type="hidden" />
+        <input type="hidden" name="_method" value="patch" />
+        <label for="question_title">Title</label>
+        <input type="text" name="question[title]" id="question_title" />
+        <label for="question_body">Body</label>
+        <textarea name="question[body]" id="question_body"></textarea>
+        <div class="question-errors">
+        </div>
+        <input type="submit" name="commit" value="Save" data-disable-with="Save" />
+      </form>
+

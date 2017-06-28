@@ -2,6 +2,8 @@ class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: [:show, :index]
   before_action :load_question, only: [:show, :destroy, :update]
 
+  after_action :publish_question, only: [:create]
+
   def new
     @question = Question.new
     @question.attachments.build
@@ -25,6 +27,7 @@ class QuestionsController < ApplicationController
   end
 
   def index
+    gon.user = current_user
     @questions = Question.all
   end
 
@@ -50,5 +53,13 @@ class QuestionsController < ApplicationController
 
     def load_question
       @question = Question.find(params[:id])
+    end
+
+    def publish_question
+      return if @question.errors.any?
+      ActionCable.server.broadcast(
+        'questions',
+        @question
+        )
     end
 end

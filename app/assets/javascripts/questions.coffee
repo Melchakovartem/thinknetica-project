@@ -13,3 +13,11 @@ ready = ->
 $(document).ready(ready);
 $(document).on('page:load', ready);
 $(document).on('page:update', ready);
+
+App.cable.subscriptions.create('QuestionsChannel', {
+  connected: ->
+    @perform 'follow',
+
+  received: (data) ->
+    $('.questions').append(JST["templates/question"]({ question: data }))
+})

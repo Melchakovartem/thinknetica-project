@@ -11,4 +11,6 @@ Rails.application.routes.draw do
   resources :votes, only: [:create, :destroy]
 
   root to: "questions#index"
+
+  mount ActionCable.server => "/cable"
 end
