@@ -2,6 +2,9 @@ class AnswersController < ApplicationController
   before_action :authenticate_user!, except: [:show, :index]
   before_action :load_question
   before_action :load_answer, only: [:show, :update, :destroy, :select]
+  before_action :load_current_user
+
+  after_action :publish_answer, only: [:create]
 
   def show; end
 
@@ -48,5 +51,21 @@ class AnswersController < ApplicationController
 
     def load_answer
       @answer = Answer.find(params[:id])
+    end
+
+    def publish_answer
+      return if @question.errors.any?
+      answer = @answer.as_json
+      answer[:rating] = @answer.rating
+      answer[:question] = @answer.question
+      answer[:attachments] = @answer.attachments.map {|a| { id: a.id, filename: a.file.filename, url: a.file.url , user_id: @answer.user_id } }
+      ActionCable.server.broadcast(
+        'answers',
+        answer
+        )
+    end
+
+    def load_current_user
+      gon.user = current_user
     end
 end

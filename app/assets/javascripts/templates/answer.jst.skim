@@ -1,0 +1,42 @@
+span class="answer-#{@answer.id}"
+  - if @answer.best
+    div class="best_answer"
+  - else
+    div class="other_answer"
+      p= @answer.body
+      p
+        | Rating:
+        p class="rating-answer-#{@answer.id}" =@answer.rating
+
+      div class="attachments_answer"
+      ul
+        -@answer.attachments.forEach (attach) ->
+          span class="attachment-#{attach.id}"
+              li
+                a href="#{attach.url}" =attach.filename
+
+              - if gon.user and gon.user.id == attach.user_id
+                p
+                  a href="/attachments/#{attach.id}" data-method="delete" data-remote="true" rel="nofollow" Delete file
+    - if gon.user.id != @answer.user_id
+      span class="vote-answer-#{@answer.id}"
+        a class="vote-link-reset" id="vlr-answer-#{@answer.id}" data-id="" style="display: none" href="#" Reset
+        a class="vote-link" id="like-vl-answer-#{@answer.id}" data-value="1" data-votable-id="#{@answer.id}" data-votable-type="Answer" style="display: " href="#" +1
+        a class="vote-link" id="dislike-vl-answer-#{@answer.id}" data-value="-1" data-votable-id="#{@answer.id}" data-votable-type="Answer" style="display: " href="#" -1
+
+    - if gon.user.id == @answer.question.user_id
+      p
+        a data-remote="true" rel="nofollow" data-method="patch" href="/questions/#{@answer.question.id}/answers/#{@answer.id}/select" Select
+    - if gon.user.id == @answer.user_id
+      p
+        a class="edit-answer-link" data-answer-id="#{@answer.id}" href="" Edit
+      p
+        a data-remote="true" rel="nofollow" data-method="delete" href="/questions/#{@answer.question.id}/answers/#{@answer.id}" Delete
+      p
+        <form id="edit-answer-#{@answer.id}" class="edit_answer" action="/questions/#{@answer.question.id}/answers/#{@answer.id}" accept-charset="UTF-8" data-remote="true" method="post">
+          <input name="utf8" type="hidden" value="" />
+          <input type="hidden" name="_method" value="patch" />
+          <label for="answer_body">Answer</label>
+          <textarea name="answer[body]" id="answer_body"></textarea>
+          <input type="submit" name="commit" value="Save" data-disable-with="Save" />
+        </form>

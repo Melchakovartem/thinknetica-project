@@ -1,6 +1,7 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: [:show, :index]
   before_action :load_question, only: [:show, :destroy, :update]
+  before_action :load_current_user
 
   after_action :publish_question, only: [:create]
 
@@ -27,7 +28,6 @@ class QuestionsController < ApplicationController
   end
 
   def index
-    gon.user = current_user
     @questions = Question.all
   end
 
@@ -61,5 +61,9 @@ class QuestionsController < ApplicationController
         'questions',
         @question
         )
+    end
+
+    def load_current_user
+      gon.user = current_user
     end
 end
