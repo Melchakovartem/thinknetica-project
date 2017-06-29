@@ -1,8 +1,0 @@
-<% if @answer.errors.present? %>
-  <% @answer.errors.full_messages.each do |message| %>
-    $(".answer-errors").html("<%= j message %>");
-  <% end %>
-<% else %>
-  $(".answers").append("<%= j render partial: 'answers/edit_answer', locals: { answer: @answer } %>");
-  $("#answer_body").val(" ");
-<% end %>
