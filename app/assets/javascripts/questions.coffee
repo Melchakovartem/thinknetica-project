@@ -23,7 +23,6 @@ App.cable.subscriptions.create('AnswersChannel', {
   connected: ->
     @perform 'follow',
   received: (data) ->
-    console.log(data)
     $('.answers').append(JST["templates/answer"]({ answer: data }))
 })
 

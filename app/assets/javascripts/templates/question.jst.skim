@@ -17,3 +17,17 @@ span class="question-#{@question.id}"
         <input type="submit" name="commit" value="Save" data-disable-with="Save" />
       </form>
 
+    h5 comments to "Question"
+    div class="comments"
+      ul class="list-of-comments"
+      p
+        <form class="comment-question" id="comment-question-#{@question.id}" action="/comments" accept-charset="UTF-8" data-remote="true" method="post">
+          <input name="utf8" type="hidden"/>
+          <input value="Question" type="hidden" name="comment[commentable_type]" id="comment_commentable_type" />
+          <input value="#{@question.id}" type="hidden" name="comment[commentable_id]" id="comment_commentable_id" />
+          <label for="comment_body">Comment</label>
+          <textarea name="comment[body]" id="comment_body"></textarea>
+          <input type="submit" name="commit" value="Add comment" data-disable-with="Add comment" />
+        </form>
+      p
+        a class="comment-question-link" id="comment-question-183" href="" Comment

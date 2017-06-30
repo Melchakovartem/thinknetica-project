@@ -1,35 +1,36 @@
 div
   h1= - @question.title
   .question
-    p= - @question.body
+    span class = "question-#{@question.id}"
+      p= - @question.body
+      p
+        | Rating:
+        span class="rating-#{@question.class.name.underscore}-#{@question.id}"
+          =< @question.rating
+      = render partial: "attachments", locals: { model: @question }
+
+
+      -if user_signed_in?
+        = render partial: "vote", locals: { model: @question }
+
+        -if @question.is_author?(current_user)
+          = link_to "Delete", question_path(@question), method: "delete"
+
+        = render partial: "comments", locals: { model: @question }
+
+
+
+  .answers
+   = render "answers"
+
+  = form_for [@question, @answer], remote: true do |f|
+    = f.label :body
+    .answer-errors
+    = f.text_area :body
+    p Attachments :
     p
-      | Rating:
-      span class="rating-#{@question.class.name.underscore}-#{@question.id}"
-        =< @question.rating
-    = render partial: "attachments", locals: { model: @question }
-
-
-    -if user_signed_in?
-      = render partial: "vote", locals: { model: @question }
-
-      -if @question.is_author?(current_user)
-        = link_to "Delete", question_path(@question), method: "delete"
-
-      = render partial: "comments", locals: { model: @question, comment: @comment }
-
-
-
-.answers
- = render "answers"
-
-= form_for [@question, @answer], remote: true do |f|
-  = f.label :body
-  .answer-errors
-  = f.text_area :body
-  p Attachments :
-  p
-  .attachments
-    = f.fields_for :attachments do |a|
-      = render "attachment_fields", f: a
-      = link_to_add_association 'Add file', f, :attachments
-  = f.submit "Answer"
+    .attachments
+      = f.fields_for :attachments do |a|
+        = render "attachment_fields", f: a
+        = link_to_add_association 'Add file', f, :attachments
+    = f.submit "Answer"

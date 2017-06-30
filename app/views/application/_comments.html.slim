@@ -1,7 +1,15 @@
 h5 comments to "#{model.class.name}"
 .comments
-  ul
+  ul class="list-of-comments"
     -model.comments.order(id: :asc).each do |comment|
         li= comment.body
 
+  p
+    = form_for Comment.new, remote: true, html: { class: "comment-#{model.class.name.underscore}", id: "comment-#{model.class.name.underscore}-#{model.id}" } do |f|
+      = f.hidden_field(:commentable_type, value: model.class.name)
+      = f.hidden_field(:commentable_id, value: model.id)
+      = f.label :body, "Comment"
+      = f.text_area :body
+      = f.submit "Add comment"
 
+p= link_to 'Comment', '', class: "comment-#{model.class.name.underscore}-link", id: "comment-#{model.class.name.underscore}-#{model.id}"
