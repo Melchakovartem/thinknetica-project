@@ -1,6 +1,8 @@
 class CommentsController < ApplicationController
   before_action :authenticate_user!
 
+
+
   def create
     return unless ["Question", "Answer"].include? params[:comment][:commentable_type]
     comment = current_user.comments.create(commentable_params)
@@ -12,4 +14,6 @@ class CommentsController < ApplicationController
     def commentable_params
       params.require(:comment).permit(:commentable_id, :commentable_type, :body)
     end
+
+
 end

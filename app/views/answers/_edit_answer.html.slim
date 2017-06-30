@@ -22,3 +22,5 @@ span class="answer-#{answer.id}"
             = f.label :body, "Answer"
             = f.text_area :body
             = f.submit "Save"
+
+      = render partial: "comments", locals: { model: answer, comment: @comment }

@@ -23,6 +23,7 @@ class QuestionsController < ApplicationController
 
   def show
     @answer = @question.answers.new
+    @comment = Comment.new
     @answer.attachments.build
     @answers = @question.answers.order(best: :desc)
   end

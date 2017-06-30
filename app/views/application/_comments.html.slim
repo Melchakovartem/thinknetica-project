@@ -1,0 +1,7 @@
+h5 comments to "#{model.class.name}"
+.comments
+  ul
+    -model.comments.order(id: :asc).each do |comment|
+        li= comment.body
+
+
