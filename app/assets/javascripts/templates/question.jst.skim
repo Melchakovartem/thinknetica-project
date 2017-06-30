@@ -27,7 +27,7 @@ span class="question-#{@question.id}"
           <input value="#{@question.id}" type="hidden" name="comment[commentable_id]" id="comment_commentable_id" />
           <label for="comment_body">Comment</label>
           <textarea name="comment[body]" id="comment_body"></textarea>
-          <input type="submit" name="commit" value="Add comment" data-disable-with="Add comment" />
+          <input type="submit" name="commit" value="To comment" data-disable-with="Add comment" />
         </form>
       p
         a class="comment-question-link" id="comment-question-183" href="" Comment

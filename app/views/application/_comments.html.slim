@@ -10,6 +10,6 @@ h5 comments to "#{model.class.name}"
       = f.hidden_field(:commentable_id, value: model.id)
       = f.label :body, "Comment"
       = f.text_area :body
-      = f.submit "Add comment"
-
-p= link_to 'Comment', '', class: "comment-#{model.class.name.underscore}-link", id: "comment-#{model.class.name.underscore}-#{model.id}"
+      = f.submit "To comment"
+-if user_signed_in?
+  p= link_to 'Comment', '', class: "comment-#{model.class.name.underscore}-link", id: "comment-#{model.class.name.underscore}-#{model.id}"

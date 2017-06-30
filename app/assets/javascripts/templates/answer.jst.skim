@@ -18,41 +18,42 @@ span class="answer-#{@answer.id}"
               - if gon.user and gon.user.id == attach.user_id
                 p
                   a href="/attachments/#{attach.id}" data-method="delete" data-remote="true" rel="nofollow" Delete file
-    - if gon.user.id != @answer.user_id
-      span class="vote-answer-#{@answer.id}"
-        a class="vote-link-reset" id="vlr-answer-#{@answer.id}" data-id="" style="display: none" href="#" Reset
-        a class="vote-link" id="like-vl-answer-#{@answer.id}" data-value="1" data-votable-id="#{@answer.id}" data-votable-type="Answer" style="display: " href="#" +1
-        a class="vote-link" id="dislike-vl-answer-#{@answer.id}" data-value="-1" data-votable-id="#{@answer.id}" data-votable-type="Answer" style="display: " href="#" -1
-
-    - if gon.user.id == @answer.question.user_id
-      p
-        a data-remote="true" rel="nofollow" data-method="patch" href="/questions/#{@answer.question.id}/answers/#{@answer.id}/select" Select
-    - if gon.user.id == @answer.user_id
-      p
-        a class="edit-answer-link" data-answer-id="#{@answer.id}" href="" Edit
-      p
-        a data-remote="true" rel="nofollow" data-method="delete" href="/questions/#{@answer.question.id}/answers/#{@answer.id}" Delete
-      p
-        <form id="edit-answer-#{@answer.id}" class="edit_answer" action="/questions/#{@answer.question.id}/answers/#{@answer.id}" accept-charset="UTF-8" data-remote="true" method="post">
-          <input name="utf8" type="hidden" value="" />
-          <input type="hidden" name="_method" value="patch" />
-          <label for="answer_body">Answer</label>
-          <textarea name="answer[body]" id="answer_body"></textarea>
-          <input type="submit" name="commit" value="Save" data-disable-with="Save" />
-        </form>
-
     - if gon.user
-      h5 comments to "Answer"
-      div class="comments"
-        ul class="list-of-comments"
+      - if gon.user.id != @answer.user_id
+        span class="vote-answer-#{@answer.id}"
+          a class="vote-link-reset" id="vlr-answer-#{@answer.id}" data-id="" style="display: none" href="#" Reset
+          a class="vote-link" id="like-vl-answer-#{@answer.id}" data-value="1" data-votable-id="#{@answer.id}" data-votable-type="Answer" style="display: " href="#" +1
+          a class="vote-link" id="dislike-vl-answer-#{@answer.id}" data-value="-1" data-votable-id="#{@answer.id}" data-votable-type="Answer" style="display: " href="#" -1
+
+      - if gon.user.id == @answer.question.user_id
         p
-          <form class="comment-answer" id="comment-answer-#{@answer.id}" action="/comments" accept-charset="UTF-8" data-remote="true" method="post">
-            <input name="utf8" type="hidden"/>
-            <input value="Answer" type="hidden" name="comment[commentable_type]" id="comment_commentable_type" />
-            <input value="#{@answer.id}" type="hidden" name="comment[commentable_id]" id="comment_commentable_id" />
-            <label for="comment_body">Comment</label>
-            <textarea name="comment[body]" id="comment_body"></textarea>
-            <input type="submit" name="commit" value="Add comment" data-disable-with="Add comment" />
+          a data-remote="true" rel="nofollow" data-method="patch" href="/questions/#{@answer.question.id}/answers/#{@answer.id}/select" Select
+      - if gon.user.id == @answer.user_id
+        p
+          a class="edit-answer-link" data-answer-id="#{@answer.id}" href="" Edit
+        p
+          a data-remote="true" rel="nofollow" data-method="delete" href="/questions/#{@answer.question.id}/answers/#{@answer.id}" Delete
+        p
+          <form id="edit-answer-#{@answer.id}" class="edit_answer" action="/questions/#{@answer.question.id}/answers/#{@answer.id}" accept-charset="UTF-8" data-remote="true" method="post">
+            <input name="utf8" type="hidden" value="" />
+            <input type="hidden" name="_method" value="patch" />
+            <label for="answer_body">Answer</label>
+            <textarea name="answer[body]" id="answer_body"></textarea>
+            <input type="submit" name="commit" value="Save" data-disable-with="Save" />
           </form>
+
+
+    h5 comments to "Answer"
+    div class="comments"
+      ul class="list-of-comments"
       p
-        a class="comment-answer-link" id="comment-answer-#{@answer.id}" href="" Comment
+        <form class="comment-answer" id="comment-answer-#{@answer.id}" action="/comments" accept-charset="UTF-8" data-remote="true" method="post">
+          <input name="utf8" type="hidden"/>
+          <input value="Answer" type="hidden" name="comment[commentable_type]" id="comment_commentable_type" />
+          <input value="#{@answer.id}" type="hidden" name="comment[commentable_id]" id="comment_commentable_id" />
+          <label for="comment_body">Comment</label>
+          <textarea name="comment[body]" id="comment_body"></textarea>
+          <input type="submit" name="commit" value="To comment" data-disable-with="Add comment" />
+        </form>
+      p
+        a class="comment-question-link" id="comment-question-183" href="" Comment
