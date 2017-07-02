@@ -55,5 +55,6 @@ span class="answer-#{@answer.id}"
           <textarea name="comment[body]" id="comment_body"></textarea>
           <input type="submit" name="commit" value="To comment" data-disable-with="Add comment" />
         </form>
+    - if gon.user
       p
-        a class="comment-question-link" id="comment-question-183" href="" Comment
+        a class="comment-answer-link" id="comment-answer-#{@answer.id}" href="" Comment

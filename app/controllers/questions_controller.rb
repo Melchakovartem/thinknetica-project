@@ -22,6 +22,7 @@ class QuestionsController < ApplicationController
   end
 
   def show
+    gon.question = @question
     @answer = @question.answers.new
     @answer.attachments.build
     @answers = @question.answers.order(best: :desc)

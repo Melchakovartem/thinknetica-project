@@ -30,4 +30,4 @@ span class="question-#{@question.id}"
           <input type="submit" name="commit" value="To comment" data-disable-with="Add comment" />
         </form>
       p
-        a class="comment-question-link" id="comment-question-183" href="" Comment
+        a class="comment-question-link" id="comment-question-#{@question.id}" href="" Comment

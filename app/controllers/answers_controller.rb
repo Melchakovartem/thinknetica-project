@@ -60,7 +60,7 @@ class AnswersController < ApplicationController
       answer[:question] = @answer.question
       answer[:attachments] = @answer.attachments.map {|a| { id: a.id, filename: a.file.filename, url: a.file.url , user_id: @answer.user_id } }
       ActionCable.server.broadcast(
-        'answers',
+        "questions/#{@question.id}/answers",
         answer
         )
     end

@@ -21,14 +21,20 @@ comment = ->
   $('form.comment-answer').on 'submit', (e) ->
     $(this).hide()
 
-App.cable.subscriptions.create('CommentsChannel', {
-  connected: ->
-    @perform 'follow',
-  received: (data) ->
-    $("." + data.commentable_type.toLowerCase() + "-" + data.commentable_id + ' .list-of-comments').append("<li>" + data.body + "</li>")
-    $('a#comment-' + data.commentable_type.toLowerCase() + '-' + data.commentable_id).show()
-})
+connect_to_comment_channel = ->
+  return unless gon.question
+  App.cable.subscriptions.create(channel: 'CommentsChannel', id: gon.question.id, {
+    connected: ->
+      @perform 'follow',
+    received: (data) ->
+      $("." + data.commentable_type.toLowerCase() + "-" + data.commentable_id + ' .list-of-comments').append("<li>" + data.body + "</li>")
+      $('a#comment-' + data.commentable_type.toLowerCase() + '-' + data.commentable_id).show()
+  })
 
 $(document).ready(comment);
 $(document).on('page:load', comment);
 $(document).on('page:update', comment);
+$(document).ready(connect_to_comment_channel);
+$(document).on('page:load', connect_to_comment_channel);
+$(document).on('page:update', connect_to_comment_channel);
+

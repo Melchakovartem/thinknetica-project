@@ -19,14 +19,19 @@ App.cable.subscriptions.create('QuestionsChannel', {
     $('.questions').append(JST["templates/question"]({ question: data }))
 })
 
-App.cable.subscriptions.create('AnswersChannel', {
-  connected: ->
-    @perform 'follow',
-  received: (data) ->
-    $('.answers').append(JST["templates/answer"]({ answer: data }))
-})
+connect_to_answer_channel = ->
+  return unless gon.question
+  App.cable.subscriptions.create(channel: 'AnswersChannel', id: gon.question.id, {
+    connected: ->
+      return unless gon.question
+      @perform 'follow'
+    received: (data) ->
+      $('.answers').append(JST["templates/answer"]({ answer: data }))
+  })
 
 $(document).ready(ready);
 $(document).on('page:load', ready);
 $(document).on('page:update', ready);
-
+$(document).ready(connect_to_answer_channel);
+$(document).on('page:load', connect_to_answer_channel);
+$(document).on('page:update', connect_to_answer_channel);
