@@ -1,6 +1,5 @@
 class CommentsChannel < ApplicationCable::Channel
   def follow
-    question = Question.find(params[:id])
-    stream_from "questions/#{question.id}/comments"
+    stream_from "questions/#{params[:id]}/comments"
   end
 end
