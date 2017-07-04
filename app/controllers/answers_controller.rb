@@ -7,7 +7,6 @@ class AnswersController < ApplicationController
   after_action :publish_answer, only: [:create]
 
   respond_to :js
-  respond_to :json, only: :create
 
   def create
     @answer = @question.answers.create(answer_params.merge(user_id: current_user.id))
