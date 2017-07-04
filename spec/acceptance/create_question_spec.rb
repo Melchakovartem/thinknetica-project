@@ -17,7 +17,7 @@ feature "Create question", '
       fill_in "Body", with: "Body of question"
       click_on "Create"
 
-      expect(page).to have_content "Your question succesfully created"
+      expect(page).to have_content "Question was successfully created."
       expect(page).to have_content "Title of question"
       expect(page).to have_content "Body of question"
     end
@@ -47,7 +47,7 @@ feature "Create question", '
         fill_in "Body", with: "Body of question"
         click_on "Create"
 
-        expect(page).to have_content "Your question succesfully created"
+        expect(page).to have_content "Question was successfully created."
         expect(page).to have_content "Title of question"
         expect(page).to have_content "Body of question"
       end

@@ -19,7 +19,7 @@ feature "Destroy question", '
       click_on "Delete"
     end
 
-    expect(page).to have_content "Your question succesfully deleted"
+    expect(page).to have_content "Question was successfully destroyed."
     expect(page).not_to have_content question.body
     expect(current_path).to eq questions_path
   end

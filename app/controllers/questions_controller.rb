@@ -2,48 +2,40 @@ class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: [:show, :index]
   before_action :load_question, only: [:show, :destroy, :update]
   before_action :load_current_user
+  before_action :build_answer, only: [:show]
+  before_action :load_gon_question, only: [:show]
 
   after_action :publish_question, only: [:create]
 
+  respond_to :html, :js
+
   def new
-    @question = Question.new
-    @question.attachments.build
+    respond_with(@question = Question.new)
   end
 
   def create
-    @question = Question.create(question_params)
-    @question.user_id = current_user.id
-    if @question.save
-      flash[:notice] = "Your question succesfully created"
-      redirect_to @question
-    else
-      render :new
-    end
+    @question = current_user.questions.create(question_params)
+    respond_with @question
   end
 
   def show
-    gon.question = @question
-    @answer = @question.answers.new
-    @answer.attachments.build
     @answers = @question.answers.order(best: :desc)
+    respond_with @question
   end
 
   def index
-    @questions = Question.all
+    respond_with(@questions = Question.all)
   end
 
   def update
     return unless @question.is_author?(current_user)
     @question.update(question_params)
+    respond_with @question
   end
 
   def destroy
-    if @question.is_author?(current_user)
-      @question.destroy
-      redirect_to questions_path, notice: "Your question succesfully deleted"
-    else
-      redirect_to @question, notice: "You haven't rights for this action"
-    end
+    return unless @question.is_author?(current_user)
+    respond_with @question.destroy
   end
 
   private
@@ -56,8 +48,11 @@ class QuestionsController < ApplicationController
       @question = Question.find(params[:id])
     end
 
+    def build_answer
+      @answer = @question.answers.new
+    end
+
     def publish_question
-      return if @question.errors.any?
       ActionCable.server.broadcast(
         'questions',
         @question
@@ -66,5 +61,9 @@ class QuestionsController < ApplicationController
 
     def load_current_user
       gon.user = current_user
+    end
+
+    def load_gon_question
+      gon.question = @question
     end
 end

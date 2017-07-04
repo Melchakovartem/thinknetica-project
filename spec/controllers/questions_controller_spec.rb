@@ -11,10 +11,6 @@ RSpec.describe QuestionsController, type: :controller do
         expect(assigns(:question)).to be_a_new(Question)
       end
 
-      it "builds a new attachment for question" do
-        expect(assigns(:question).attachments.first).to be_a_new(Attachment)
-      end
-
       it "renders new view" do
         expect(response).to render_template :new
       end
@@ -86,10 +82,6 @@ RSpec.describe QuestionsController, type: :controller do
       expect(assigns(:answers)).to match_array(answers)
     end
 
-    it "builds a new attachment for answer" do
-        expect(assigns(:answer).attachments.first).to be_a_new(Attachment)
-      end
-
     it "render show view" do
       expect(response).to render_template :show
     end
@@ -130,10 +122,6 @@ RSpec.describe QuestionsController, type: :controller do
       it "checks record in database" do
         expect(Question.where(id: question.id)).to exist
       end
-
-      it "redirects to index view" do
-        expect(response).to redirect_to question_path(question)
-      end
     end
   end
 
@@ -161,7 +149,7 @@ RSpec.describe QuestionsController, type: :controller do
         let!(:question) { create(:question, user: @user) }
 
         before do
-          patch :update, params: { id: question, question: { body: "new body" } }, format: :js
+          patch :update, params: { id: question.id, question: { body: "new body" } }, format: :js
         end
 
         it "changes question attributes" do

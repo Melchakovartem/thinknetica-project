@@ -6,7 +6,7 @@ feature "Select best answer" , "
   I'd like to be able to select best question
 " do
 
-  given(:user) { create(:user) }
+  given!(:user) { create(:user) }
   given!(:question) { create(:question) }
   given!(:first_answer) { create(:answer, question: question) }
   given!(:second_answer) { create(:answer, question: question) }

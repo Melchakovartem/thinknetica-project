@@ -11,6 +11,7 @@ class Answer < ApplicationRecord
 
   accepts_nested_attributes_for :attachments, reject_if: :all_blank, allow_destroy: true
 
+
   def is_author?(user)
     user.id == user_id
   end
