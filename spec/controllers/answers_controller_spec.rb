@@ -4,34 +4,6 @@ RSpec.describe AnswersController, type: :controller do
   let(:question) { create(:question) }
   let(:attachment) { create(:attachment) }
 
-  describe "GET #new" do
-    context "if authenticated user" do
-      sign_in_user
-
-      before { get :new, params: { question_id: question } }
-
-      it "assigns a new Answer to @answer" do
-        expect(assigns(:answer)).to be_a_new(Answer)
-      end
-
-      it "render new view" do
-        expect(response).to render_template :new
-      end
-    end
-
-    context "if unauthenticated user" do
-      before { get :new, params: { question_id: question } }
-
-      it "doesn't assigns a new Answer to @answer" do
-        expect(assigns(:answer)).not_to be_a_new(Answer)
-      end
-
-      it "redirects to sign in" do
-        expect(response).to redirect_to new_user_session_path
-      end
-    end
-  end
-
   describe "POST #create" do
     context "if authenticated user" do
       sign_in_user
@@ -72,19 +44,6 @@ RSpec.describe AnswersController, type: :controller do
     end
   end
 
-  describe "GET #index" do
-    let(:answers) { create_list(:answer, 3, question: question) }
-
-    before { get :index, params: { question_id: question } }
-
-    it "populates an array of all answers" do
-      expect(assigns(:answers)).to match_array(answers)
-    end
-
-    it "renders index view" do
-      expect(response).to render_template :index
-    end
-  end
 
   describe "GET #show" do
     let(:answer) { create(:answer, question: question) }

@@ -7,7 +7,8 @@ class QuestionsController < ApplicationController
 
   after_action :publish_question, only: [:create]
 
-  respond_to :html, :js
+  respond_to :js, only: [:show, :update]
+
 
   def new
     respond_with(@question = Question.new)
@@ -53,6 +54,7 @@ class QuestionsController < ApplicationController
     end
 
     def publish_question
+      return unless @question.valid?
       ActionCable.server.broadcast(
         'questions',
         @question
