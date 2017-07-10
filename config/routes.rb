@@ -10,6 +10,7 @@ Rails.application.routes.draw do
 
   resources :votes, only: [:create, :destroy]
   resources :comments, only: [:create]
+  resources :confirmations, only: [:create]
 
   root to: "questions#index"
 
