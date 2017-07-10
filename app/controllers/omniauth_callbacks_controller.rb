@@ -1,6 +1,8 @@
 class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def facebook
-    @user = User.find_for_oauth(request.env['omniauth.auth'])
+    auth = request.env['omniauth.auth']
+    @user = User.find_for_oauth(auth)
+
     if @user.persisted?
       sign_in_and_redirect @user, event: :authentication
       set_flash_message(:notice, :success, kind: "facebook") if is_navigational_format?
@@ -10,13 +12,20 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def vk
     auth = request.env['omniauth.auth']
     authorization = Authorization.where(provider: auth.provider, uid: auth.uid).first
+
     if authorization
       sign_in_and_redirect authorization.user, event: :authentication
     else
-      cookies[:uid] = auth.uid
-      cookies[:provider] = auth.provider
-      @user = User.new
-      render "application/enter_email"
+      render "application/enter_email", locals: { auth: auth }
+    end
+  end
+
+  def confirm_email
+    auth = OmniAuth::AuthHash.new(params['auth'])
+    @user = User.find_for_oauth(auth)
+    if @user.persisted?
+      @user.send_confirmation_instructions
+      redirect_to root_path
     end
   end
 end
