@@ -30,3 +30,4 @@ Shoulda::Matchers.configure do |config|
 end
 
 Capybara.server = :puma
+OmniAuth.config.test_mode = true

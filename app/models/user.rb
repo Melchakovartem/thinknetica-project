@@ -22,7 +22,7 @@ class User < ApplicationRecord
 
       ActiveRecord::Base.transaction do
         user = User.new(email: email, password: password, password_confirmation: password)
-        user.skip_confirmation!
+        user.skip_confirmation! unless auth.provider == "vk"
         user.save!
         user.authorizations.create(provider: auth.provider, uid: auth.uid)
       end
