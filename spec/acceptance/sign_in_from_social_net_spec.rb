@@ -45,6 +45,11 @@ feature "Sign in from social networks", '
     fill_in "email", with: "new_user@test.com"
     click_on "Create"
 
+    visit new_question_path
+    expect(page).to have_content "You need to sign in or sign up before continuing."
+    expect(page).to_not have_content "Title"
+    expect(page).to_not have_content "Body"
+
     open_email("new_user@test.com")
     current_email.click_link "Confirm my account"
 
