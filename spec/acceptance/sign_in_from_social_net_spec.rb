@@ -38,7 +38,7 @@ feature "Sign in from social networks", '
     mock_auth_hash(:vk)
     visit new_user_session_path
 
-    expect(page).to have_content('Sign in with Facebook')
+    expect(page).to have_content('Sign in with Vk')
 
     click_on "Sign in with Vk"
 
@@ -53,7 +53,7 @@ feature "Sign in from social networks", '
 
     click_on "Sign in with Vk"
 
-    expect(page).to have_content "Successfully authenticated from vkontakte account."
+    expect(page).to have_content "Successfully authenticated from vk account."
     expect(current_path).to eq root_path
   end
 
@@ -68,7 +68,7 @@ feature "Sign in from social networks", '
 
     click_on "Sign in with Vk"
 
-    expect(page).to have_content "Successfully authenticated from vkontakte account."
+    expect(page).to have_content "Successfully authenticated from vk account."
     expect(current_path).to eq root_path
   end
 end
