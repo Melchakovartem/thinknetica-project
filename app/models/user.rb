@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  SKIPABLE_OAUTH = ["facebook"]
+
   has_many :questions, dependent: :destroy
   has_many :answers, dependent: :destroy
   has_many :votes, dependent: :destroy
@@ -24,7 +26,7 @@ class User < ApplicationRecord
 
       ActiveRecord::Base.transaction do
         user = User.new(email: email, password: password, password_confirmation: password)
-        user.skip_confirmation! unless auth.provider == "vk"
+        user.skip_confirmation! if SKIPABLE_OAUTH.include?(auth.provider)
         user.save!
         user.authorizations.create(provider: auth.provider, uid: auth.uid)
       end
