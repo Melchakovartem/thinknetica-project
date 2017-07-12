@@ -42,7 +42,7 @@ feature "Sign in from social networks", '
 
     click_on "Sign in with Vk"
 
-    fill_in "auth_info_email", with: "new_user@test.com"
+    fill_in "email", with: "new_user@test.com"
     click_on "Create"
 
     open_email("new_user@test.com")

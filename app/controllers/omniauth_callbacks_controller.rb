@@ -13,10 +13,11 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   private
 
     def social_auth
-      auth = request.env['omniauth.auth'] || OmniAuth::AuthHash.new(params['auth'])
       @user = User.find_for_oauth(auth)
       return check_user_confirmation(auth.provider) if @user
-      render "application/enter_email", locals: { auth: auth }
+      session[:provider] = auth.provider
+      session[:uid] = auth.uid
+      render "application/enter_email"
     end
 
     def check_user_confirmation(provider)
@@ -28,5 +29,11 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     def sign_in_from_oauth(provider)
       sign_in_and_redirect @user, event: :authentication
       set_flash_message(:notice, :success, kind: provider) if is_navigational_format?
+    end
+
+    def auth
+      request.env['omniauth.auth'] ||
+      OmniAuth::AuthHash.new(provider: session[:provider], uid: session[:uid],
+                             info: { email: params[:email] })
     end
 end
