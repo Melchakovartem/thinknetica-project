@@ -71,6 +71,23 @@ RSpec.describe User, type: :model do
           expect(authorization.uid).to eq auth.uid
         end
       end
+
+      context "email is empty" do
+        let!(:auth) { OmniAuth::AuthHash.new(provider: "vk", uid: "123456", info: { }) }
+
+        it "doesn't create new user" do
+          expect { User.find_for_oauth(auth) }.to_not change(User, :count)
+        end
+
+        it "returns nil" do
+          user = User.find_for_oauth(auth)
+          expect(nil).to be_nil
+        end
+
+        it "doesn't create exception" do
+          expect { User.find_for_oauth(auth) }.to_not raise_exception
+        end
+      end
     end
   end
 end
