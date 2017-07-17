@@ -1,5 +1,5 @@
 span class="question-#{question.id}"
   p= link_to question.title, question_path(question)
-  - if user_signed_in? and current_user.id == question.user_id
+  - if can?(:edit, question)
         p= link_to 'Edit', '', class: 'edit-question-link', data: { question_id: question.id }
         = render partial: "questions/form_question", locals: { question: question }

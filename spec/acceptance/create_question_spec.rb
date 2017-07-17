@@ -22,11 +22,10 @@ feature "Create question", '
       expect(page).to have_content "Body of question"
     end
 
-    scenario "Anauthenticated user to create question" do
+    scenario "Unauthenticated user to create question" do
       visit questions_path
-      click_on "Ask question"
 
-      redirect_to_sign_in
+      expect(page).to_not have_content "Ask question"
     end
   end
 

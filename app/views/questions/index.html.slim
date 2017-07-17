@@ -3,4 +3,5 @@
   - @questions.each do |q|
     = render partial: "questions/edit_question", locals: { question: q }
 
-p= link_to "Ask question", new_question_path
+- if can?(:create, Question)
+  p= link_to "Ask question", new_question_path

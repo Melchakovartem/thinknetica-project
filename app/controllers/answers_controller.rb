@@ -26,8 +26,8 @@ class AnswersController < ApplicationController
   end
 
   def select
-    #return unless @question.is_author?(current_user)
-    authorize! :select, @question
+    return unless @question.is_author?(current_user)
+    #authorize! :select, [@question, @answer]
     respond_with @question.select_answer(@answer)
   end
 
