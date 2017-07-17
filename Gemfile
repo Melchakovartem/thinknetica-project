@@ -46,6 +46,7 @@ gem "responders", "~> 2.0"
 gem "omniauth"
 gem "omniauth-facebook"
 gem "omniauth-vk"
+gem "cancancan"
 
 
 group :development do

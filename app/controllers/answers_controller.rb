@@ -8,23 +8,26 @@ class AnswersController < ApplicationController
 
   respond_to :js
 
+  #authorize_resource
+
   def create
     @answer = @question.answers.create(answer_params.merge(user_id: current_user.id))
   end
 
   def update
-    return unless @answer.is_author?(current_user)
+    authorize! :update, @answer
     @answer.update(answer_params)
     respond_with @answer
   end
 
   def destroy
-    return unless @answer.is_author?(current_user)
+    authorize! :destroy, @answer
     respond_with @answer.destroy
   end
 
   def select
-    return unless @question.is_author?(current_user)
+    #return unless @question.is_author?(current_user)
+    authorize! :select, @question
     respond_with @question.select_answer(@answer)
   end
 

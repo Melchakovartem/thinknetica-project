@@ -11,10 +11,10 @@ span class="answer-#{answer.id}"
     - if user_signed_in?
       = render partial: "vote", locals: { model: answer }
 
-      - if @question.is_author?(current_user)
+      - if can?(:select, @question)
         p= link_to "Select", select_question_answer_path(@question, answer), method: "patch", remote: true
 
-      - if  answer.is_author?(current_user)
+      - if  can?(:edit, answer)
         p= link_to 'Edit', '', class: 'edit-answer-link', data: { answer_id: answer.id }
         p= link_to "Delete", question_answer_path(@question, answer), method: "delete", remote: true
         p
