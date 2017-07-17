@@ -10,7 +10,7 @@ class VotesController < ApplicationController
   end
 
   def destroy
-    return unless @vote.is_author?(current_user)
+    authorize! :destroy, @vote
     votable = @vote.votable
     @vote.destroy
     render json: { votable_id: votable.id, votable_type: votable.class.name.underscore, rating: votable.rating }
