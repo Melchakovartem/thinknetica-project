@@ -19,8 +19,8 @@ class Ability
   def user_abilities
     guest_abilities
     can :create, [Question, Answer, Comment, Vote]
-    can :update, [Question, Answer], user: user
-    can :destroy, [Question, Answer, Vote], user: user
-    can :select, Question, { user: user }
+    can :update, [Question, Answer], user_id: user.id
+    can :destroy, [Question, Answer, Vote], user_id: user.id
+    can :select, Question, user_id: user.id
   end
 end
