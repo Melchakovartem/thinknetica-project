@@ -47,6 +47,7 @@ gem "omniauth"
 gem "omniauth-facebook"
 gem "omniauth-vk"
 gem "cancancan"
+gem "doorkeeper"
 
 
 group :development do
@@ -69,6 +70,7 @@ group :test, :development do
   gem "database_cleaner"
   gem "launchy"
   gem "capybara-webkit"
+  gem "json_spec"
 end
 
 group :test do

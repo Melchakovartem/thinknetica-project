@@ -19,6 +19,7 @@ RSpec.configure do |config|
   config.extend ControllerMacros, type: :controller
   config.include OmniauthMacros
   config.use_transactional_fixtures = true
+  config.include JsonSpec::Helpers
 end
 
 require "shoulda/matchers"
