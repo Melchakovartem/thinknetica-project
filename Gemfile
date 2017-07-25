@@ -48,6 +48,9 @@ gem "omniauth-facebook"
 gem "omniauth-vk"
 gem "cancancan"
 gem "doorkeeper"
+gem "active_model_serializers"
+gem "oj"
+gem "oj_mimic_json"
 
 
 group :development do
