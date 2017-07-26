@@ -12,6 +12,7 @@ class Api::V1::AnswersController < Api::V1::BaseController
   end
 
   def create
+    authorize! :create, Answer, current_user
     @answer = current_resource_owner.answers.create(answer_params.merge(question_id: @question.id))
     respond_with @answer, serializer: BasicAnswerSerializer, location: api_v1_question_answers_path
   end

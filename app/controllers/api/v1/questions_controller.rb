@@ -1,5 +1,4 @@
 class Api::V1::QuestionsController < Api::V1::BaseController
-
   def index
     @questions = Question.all
     respond_with @questions, each_serializer: BasicQuestionSerializer
@@ -11,6 +10,7 @@ class Api::V1::QuestionsController < Api::V1::BaseController
   end
 
   def create
+    authorize! :create, Question, current_user
     @question = current_resource_owner.questions.create(question_params)
     respond_with @question, serializer: BasicQuestionSerializer
   end
