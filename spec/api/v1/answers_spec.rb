@@ -102,4 +102,49 @@ describe "Answers API" do
       end
     end
   end
+
+  describe "POST /create" do
+    context "unauthorized" do
+
+      before do
+        post "/api/v1/questions/#{question.id}/answers", params: { format: :json }
+      end
+
+      it "returns 401 status if there is no access_token" do
+        expect(response.status).to eq 401
+      end
+
+      it "returns 401 status if acces_token is invalid" do
+        expect(response.status).to eq 401
+      end
+    end
+
+    context "authorized" do
+      let!(:user) { create(:user) }
+      let(:access_token) { create(:access_token, resource_owner_id: user.id) }
+
+      it "responds status :created" do
+        post "/api/v1/questions/#{question.id}/answers",
+        params: { answer: attributes_for(:answer), format: :json, access_token: access_token.token }
+        expect(response).to have_http_status(:created)
+      end
+
+      %w(id body created_at updated_at).each do |attr|
+        it "contains #{attr}" do
+          post "/api/v1/questions/#{question.id}/answers",
+          params: { answer: attributes_for(:answer), format: :json, access_token: access_token.token }
+          id = JSON.parse(response.body)["id"]
+          answer = Answer.find(id)
+          expect(response.body).to be_json_eql(answer.send(attr.to_sym).to_json).at_path("#{attr}")
+        end
+      end
+
+      it "creates question" do
+        expect do
+          post "/api/v1/questions/#{question.id}/answers",
+          params: { answer: attributes_for(:answer), format: :json, access_token: access_token.token }
+        end.to change { Answer.count }.by(1)
+      end
+    end
+  end
 end
