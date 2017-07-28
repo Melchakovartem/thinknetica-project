@@ -9,32 +9,10 @@ feature 'Add comments to question', %q{
   given(:user) { create(:user) }
   given(:another_user) { create(:user) }
   given(:question) { create(:question) }
+  given(:klass_name) { question.class.name }
+  given(:selector) { ".question" }
 
-
-  context "one session" do
-    scenario 'Authenticated user try to comments question', js: true do
-      sign_in(user)
-      visit question_path(question)
-
-      within ".question" do
-        click_on 'Comment'
-
-        fill_in 'Comment', with: 'New comment to question'
-
-        click_on 'To comment'
-
-        expect(page).to have_content 'New comment to question'
-      end
-    end
-
-    scenario 'anuthenticated user try to comments question', js: true do
-      visit question_path(question)
-
-      within ".question" do
-        expect(page).to_not have_link 'Comment'
-      end
-    end
-  end
+  it_behaves_like "Commentable"
 
   context "multiple sessions" do
     scenario 'all users see new comment in real-time', js: true do

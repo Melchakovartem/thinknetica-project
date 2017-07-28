@@ -10,32 +10,11 @@ feature 'Add comments to answer', %q{
   given(:another_user) { create(:user) }
   given(:question) { create(:question) }
   given!(:answer) { create(:answer, question: question) }
+  given(:klass_name) { question.class.name }
+  given(:selector) { ".answers" }
 
 
-  context "one session" do
-    scenario 'Authenticated user try to comments answer', js: true do
-      sign_in(user)
-      visit question_path(question)
-
-      within ".answers" do
-        click_on 'Comment'
-
-        fill_in 'Comment', with: 'New comment to answer'
-
-        click_on 'To comment'
-
-        expect(page).to have_content 'New comment to answer'
-      end
-    end
-
-    scenario 'anuthenticated user try to comments question', js: true do
-      visit question_path(question)
-
-      within ".answers" do
-        expect(page).to_not have_content 'New comment to answer'
-      end
-    end
-  end
+  it_behaves_like "Commentable"
 
   context "multiple sessions" do
     scenario 'all users see new answer in real-time', js: true do
