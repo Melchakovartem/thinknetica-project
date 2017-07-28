@@ -1,5 +1,8 @@
 span class="vote-#{model.class.name.underscore}-#{model.id}"
   -unless model.is_author?(current_user)
-    = link_to 'Reset', '#', class: "vote-link-reset", id: "vlr-#{model.class.name.underscore}-#{model.id}", data: { id: "#{ model.has_vote_from_user(current_user) ? model.has_vote_from_user(current_user).id : '' }" }, style: "display: #{ model.has_vote_from_user(current_user) ? '' : 'none' }"
-    = link_to '+1', '#', class: 'vote-link', id: "like-vl-#{model.class.name.underscore}-#{model.id}", data: { value: 1, votable_id: model.id, votable_type: "#{ model.class.name }" }, style: "display: #{ model.has_vote_from_user(current_user) ? 'none' : '' }"
-    = link_to '-1', '#', class: 'vote-link', id: "dislike-vl-#{model.class.name.underscore}-#{model.id}", data: { value: -1, votable_id: model.id, votable_type: "#{ model.class.name }" }, style: "display: #{ model.has_vote_from_user(current_user) ? 'none' : '' }"
+
+    = link_to 'Reset', '#', class: "vote-link-reset", id: "vlr-#{model.class.name.underscore}-#{model.id}", data: { id: "#{ model.has_vote_from_user(current_user) ? model.has_vote_from_user(current_user).id : '' }" }, style: "display: #{ model.has_vote_from_user(current_user) ? 'inline' : 'none' }"
+
+    = link_to '+1', '#', class: 'vote-link', id: "like-vl-#{model.class.name.underscore}-#{model.id}", data: { value: "1", votable_id: model.id, votable_type: "#{ model.class.name }" }, style: "display: #{ model.has_vote_from_user(current_user) ? 'none' : 'inline' }"
+
+    = link_to '-1', '#', class: 'vote-link', id: "dislike-vl-#{model.class.name.underscore}-#{model.id}", data: { value: "-1", votable_id: model.id, votable_type: "#{ model.class.name }" }, style: "display: #{ model.has_vote_from_user(current_user) ? 'none' : 'inline' }"

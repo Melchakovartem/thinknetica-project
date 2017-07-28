@@ -16,4 +16,7 @@ class Answer < ApplicationRecord
     user.id == user_id
   end
 
+  def has_vote_from_user(user)
+    votes.find_by(user_id: user.id)
+  end
 end

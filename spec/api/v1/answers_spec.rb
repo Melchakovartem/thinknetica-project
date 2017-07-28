@@ -5,6 +5,7 @@ describe "Answers API" do
 
   describe "GET /index" do
     let!(:answers) { create_list(:answer, 2, question: question) }
+    let(:answer) { answers.last }
     let(:request) { get "/api/v1/questions/#{question.id}/answers" }
 
     it_behaves_like "API Authenticable"
@@ -26,7 +27,7 @@ describe "Answers API" do
 
       %w(id body created_at updated_at).each do |attr|
         it "question object contains #{attr}" do
-          expect(response.body).to be_json_eql(answers[0].send(attr.to_sym).to_json).at_path("0/#{attr}")
+          expect(response.body).to be_json_eql(answer.send(attr.to_sym).to_json).at_path("0/#{attr}")
         end
       end
     end
