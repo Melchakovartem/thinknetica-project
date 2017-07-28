@@ -2,20 +2,9 @@ require "rails_helper"
 
 describe "Questions API" do
   describe "GET /index" do
-    context "unauthorized" do
+    let(:request) { get "/api/v1/questions" }
 
-      before do
-        get "/api/v1/questions", params: { format: :json }
-      end
-
-      it "returns 401 status if there is no access_token" do
-        expect(response.status).to eq 401
-      end
-
-      it "returns 401 status if acces_token is invalid" do
-        expect(response.status).to eq 401
-      end
-    end
+    it_behaves_like "API Authenticable"
 
     context "authorized" do
       let(:access_token) { create(:access_token) }
@@ -48,21 +37,10 @@ describe "Questions API" do
     let!(:question) { create(:question) }
     let!(:comment) { create(:comment, commentable: question, user: user) }
     let!(:attachment) { create(:attachment, attachmentable: question) }
+    let(:request) { get "/api/v1/questions/#{question.id}" }
 
-    context "unauthorized" do
+    it_behaves_like "API Authenticable"
 
-      before do
-        get "/api/v1/questions/#{question.id}", params: { format: :json }
-      end
-
-      it "returns 401 status if there is no access_token" do
-        expect(response.status).to eq 401
-      end
-
-      it "returns 401 status if acces_token is invalid" do
-        expect(response.status).to eq 401
-      end
-    end
 
     context "authorized" do
       let(:access_token) { create(:access_token) }
@@ -104,20 +82,9 @@ describe "Questions API" do
   end
 
   describe "POST /create" do
-    context "unauthorized" do
+    let(:request) { post "/api/v1/questions" }
 
-      before do
-        post "/api/v1/questions", params: { format: :json }
-      end
-
-      it "returns 401 status if there is no access_token" do
-        expect(response.status).to eq 401
-      end
-
-      it "returns 401 status if acces_token is invalid" do
-        expect(response.status).to eq 401
-      end
-    end
+    it_behaves_like "API Authenticable"
 
     context "authorized" do
       let!(:user) { create(:user) }
@@ -146,5 +113,9 @@ describe "Questions API" do
         end.to change { Question.count }.by(1)
       end
     end
+  end
+
+  def do_request(options = {}, &request)
+    request.call params: { format: :json }.merge(options)
   end
 end

@@ -5,20 +5,9 @@ describe "Answers API" do
 
   describe "GET /index" do
     let!(:answers) { create_list(:answer, 2, question: question) }
+    let(:request) { get "/api/v1/questions/#{question.id}/answers" }
 
-    context "unauthorized" do
-      before do
-        get "/api/v1/questions/#{question.id}/answers", params: { format: :json }
-      end
-
-      it "returns 401 status if there is no access_token" do
-        expect(response.status).to eq 401
-      end
-
-      it "returns 401 status if acces_token is invalid" do
-        expect(response.status).to eq 401
-      end
-    end
+    it_behaves_like "API Authenticable"
 
     context "authorized" do
       let(:access_token) { create(:access_token) }
@@ -48,21 +37,10 @@ describe "Answers API" do
     let!(:answer) { create(:answer) }
     let!(:comment) { create(:comment, commentable: answer, user: user) }
     let!(:attachment) { create(:attachment, attachmentable: answer) }
+    let(:request) { get "/api/v1/answers/#{answer.id}" }
 
-    context "unauthorized" do
+    it_behaves_like "API Authenticable"
 
-      before do
-        get "/api/v1/answers/#{answer.id}", params: { format: :json }
-      end
-
-      it "returns 401 status if there is no access_token" do
-        expect(response.status).to eq 401
-      end
-
-      it "returns 401 status if acces_token is invalid" do
-        expect(response.status).to eq 401
-      end
-    end
 
     context "authorized" do
       let(:access_token) { create(:access_token) }
@@ -104,20 +82,9 @@ describe "Answers API" do
   end
 
   describe "POST /create" do
-    context "unauthorized" do
+    let(:request) { post "/api/v1/questions/#{question.id}/answers" }
 
-      before do
-        post "/api/v1/questions/#{question.id}/answers", params: { format: :json }
-      end
-
-      it "returns 401 status if there is no access_token" do
-        expect(response.status).to eq 401
-      end
-
-      it "returns 401 status if acces_token is invalid" do
-        expect(response.status).to eq 401
-      end
-    end
+    it_behaves_like "API Authenticable"
 
     context "authorized" do
       let!(:user) { create(:user) }
@@ -146,5 +113,9 @@ describe "Answers API" do
         end.to change { Answer.count }.by(1)
       end
     end
+  end
+
+  def do_request(options = {}, &request)
+    request.call params: { format: :json }.merge(options)
   end
 end
