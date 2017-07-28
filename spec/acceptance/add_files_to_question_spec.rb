@@ -7,24 +7,22 @@ feature 'Add files to question', %q{
 } do
 
   given(:user) { create(:user) }
+  given(:selector) { ".question" }
+  given(:button) { "Create" }
+  given(:fill_in_block) do
+    fill_in "Title", with: "Test of question"
+    fill_in "Body", with: "Body of question"
+  end
+
 
   background do
     sign_in(user)
     visit new_question_path
   end
 
-  scenario 'User adds file when asks question', js: true do
-    fill_in 'Title', with: 'Test of question'
-    fill_in 'Body', with: 'Body of question'
+  it_behaves_like "Attachmentable"
 
-    click_on 'Add file'
-
-    all('input[type="file"]').first.set("#{Rails.root}/spec/rails_helper.rb")
-    all('input[type="file"]').last.set("#{Rails.root}/spec/spec_helper.rb")
-
-    click_on 'Create'
-
-    expect(page).to have_link "rails_helper.rb"
-    expect(page).to have_link "spec_helper.rb"
+  def fill_in_text_fields(&fill_in_block)
+    fill_in_block.call
   end
 end
