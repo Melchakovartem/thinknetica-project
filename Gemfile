@@ -51,6 +51,9 @@ gem "doorkeeper"
 gem "active_model_serializers"
 gem "oj"
 gem "oj_mimic_json"
+gem "sidekiq"
+gem "whenever"
+gem "sinatra", ">= 1.3.0", require: nil
 
 
 group :development do
