@@ -9,4 +9,14 @@ RSpec.describe Answer, type: :model do
 
   it { should have_many :comments }
   it { should have_many :attachments }
+
+  describe ".informing" do
+    let(:answer) { create(:answer) }
+
+    it "informs author of question by new answer" do
+      answer = build(:answer)
+      expect(answer).to receive(:informing)
+      answer.save
+    end
+  end
 end

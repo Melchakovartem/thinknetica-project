@@ -11,6 +11,8 @@ class Answer < ApplicationRecord
 
   accepts_nested_attributes_for :attachments, reject_if: :all_blank, allow_destroy: true
 
+  after_create :informing
+
 
   def is_author?(user)
     user.id == user_id
@@ -18,5 +20,9 @@ class Answer < ApplicationRecord
 
   def has_vote_from_user(user)
     votes.find_by(user_id: user.id)
+  end
+
+  def informing
+    AnswerInformJob.perform_now(self)
   end
 end
