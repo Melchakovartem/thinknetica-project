@@ -5,7 +5,7 @@ RSpec.describe AnswerMailer, type: :mailer do
     let(:user) { create(:user) }
     let(:question) { create(:question, user: user) }
     let(:answer) { create(:answer, question: question) }
-    let(:mail) { AnswerMailer.informing(answer) }
+    let(:mail) { AnswerMailer.informing(user, answer) }
 
     it "renders the headers" do
       expect(mail.subject).to eq("Informing")
