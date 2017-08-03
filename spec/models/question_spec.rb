@@ -11,4 +11,12 @@ RSpec.describe Question, type: :model do
   it { should have_many :subscriptions }
 
   it { should belong_to(:user) }
+
+  describe ".subscribe" do
+    it "subscribes after creating question" do
+      question = build(:question)
+      expect(question).to receive(:subscribe)
+      question.save
+    end
+  end
 end

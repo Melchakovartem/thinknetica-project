@@ -91,4 +91,42 @@ RSpec.describe User, type: :model do
       end
     end
   end
+
+  describe ".subscribed" do
+    let!(:user) { create(:user) }
+    let!(:question) { create(:question) }
+
+    context "if subscription exists" do
+      let!(:subscription) { create(:subscription, user: user, question: question) }
+
+      it "returns subscription" do
+        expect(user.subscribed(question)).to eq subscription
+      end
+    end
+
+    context "if subscription doesn't exist" do
+      it "returns subscription" do
+        expect(user.subscribed(question)).to be_nil
+      end
+    end
+  end
+
+  describe ".subscribed?" do
+    let!(:user) { create(:user) }
+    let!(:question) { create(:question) }
+
+    context "if subscription exists" do
+      let!(:subscription) { create(:subscription, user: user, question: question) }
+
+      it "returns subscription" do
+        expect(user.subscribed?(question)).to be_truthy
+      end
+    end
+
+    context "if subscription doesn't exist" do
+      it "returns subscription" do
+        expect(user.subscribed(question)).to be_falsey
+      end
+    end
+  end
 end

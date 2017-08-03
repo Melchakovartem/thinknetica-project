@@ -12,6 +12,8 @@ class Question < ApplicationRecord
 
   accepts_nested_attributes_for :attachments, reject_if: :all_blank, allow_destroy: true
 
+  after_create :subscribe
+
   def is_author?(user)
     user.id == user_id
   end
@@ -21,5 +23,9 @@ class Question < ApplicationRecord
       answers.update_all(best: false)
       answer.update!(best: true)
     end
+  end
+
+  def subscribe
+    self.subscriptions.create(user_id: self.user_id)
   end
 end
