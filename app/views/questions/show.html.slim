@@ -12,6 +12,10 @@ div
 
       -if user_signed_in?
         = render partial: "vote", locals: { model: @question }
+        p
+          = link_to "Subscribe", "#", class: "subscribe-link", data: { question_id: @question.id }, style: "display: #{current_user.subscribed?(@question) ? 'none' : 'inline' }"
+          = link_to "Unsubscribe", "#", class: "unsubscribe-link", data: { id: "#{ current_user.subscribed?(@question) ? current_user.subscribed(@question).id : ''}" }, style: "display: #{current_user.subscribed?(@question) ? 'inline' : 'none'}"
+
 
         -if can?(:destroy, @question)
           = link_to "Delete", question_path(@question), method: "delete"

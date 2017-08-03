@@ -6,6 +6,7 @@ class User < ApplicationRecord
   has_many :votes, dependent: :destroy
   has_many :comments, dependent: :destroy
   has_many :authorizations, dependent: :destroy
+  has_many :subscriptions, dependent: :destroy
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :omniauthable, :confirmable, omniauth_providers: [:facebook, :vk]
@@ -34,5 +35,13 @@ class User < ApplicationRecord
     end
 
     user
+  end
+
+  def subscribed(question)
+    subscriptions.find_by(question_id: question.id)
+  end
+
+  def subscribed?(question)
+    subscribed(question)
   end
 end
