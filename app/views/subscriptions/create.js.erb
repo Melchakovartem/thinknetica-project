@@ -1,0 +1,2 @@
+$(".subscribe-link").hide();
+$(".unsubscribe-link").attr("href", "/questions/" + <%= @question_id %> + "/subscriptions/" + <%= @subscription.id %>).show();

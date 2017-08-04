@@ -39,12 +39,6 @@ class QuestionsController < ApplicationController
     respond_with @question.destroy
   end
 
-  def subscribe
-  end
-
-  def unsubscribe
-  end
-
   private
 
     def question_params

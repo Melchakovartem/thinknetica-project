@@ -3,21 +3,18 @@ class SubscriptionsController < ApplicationController
   before_action :set_subscription, only: [:destroy]
 
   authorize_resource
+  respond_to :js
 
   def create
-    subscription = current_user.subscriptions.create(subscription_params)
-    render json: { subscription_id: subscription.id }
+    @question_id = params[:question_id]
+    @subscription = current_user.subscriptions.create(question_id: @question_id)
   end
 
   def destroy
-    render json: @subscription.destroy
+    respond_with @subscription.destroy
   end
 
   private
-
-    def subscription_params
-      params.require(:subscription).permit(:question_id)
-    end
 
     def set_subscription
       @subscription = Subscription.find(params[:id])

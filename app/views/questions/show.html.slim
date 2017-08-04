@@ -12,9 +12,10 @@ div
 
       -if user_signed_in?
         = render partial: "vote", locals: { model: @question }
+
         p
-          = link_to "Subscribe", "#", class: "subscribe-link", data: { question_id: @question.id }, style: "display: #{current_user.subscribed?(@question) ? 'none' : 'inline' }"
-          = link_to "Unsubscribe", "#", class: "unsubscribe-link", data: { id: "#{ current_user.subscribed?(@question) ? current_user.subscribed(@question).id : ''}" }, style: "display: #{current_user.subscribed?(@question) ? 'inline' : 'none'}"
+          = link_to "Subscribe", question_subscriptions_path(@question), remote: true, method: :post, class: "subscribe-link",style: "display: #{current_user.subscribed?(@question) ? 'none' : 'inline'}"
+          = link_to "Unsubscribe", "/questions/#{@question.id}/subscriptions/#{current_user.subscribed?(@question) ? current_user.subscribed(@question).id : ''}", remote: true, method: :delete, class: "unsubscribe-link", style: "display: #{current_user.subscribed?(@question) ? 'inline' : 'none'}"
 
 
         -if can?(:destroy, @question)

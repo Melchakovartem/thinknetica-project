@@ -14,13 +14,14 @@ Rails.application.routes.draw do
     resources :answers do
       patch :select, on: :member
     end
+
+    resources :subscriptions, only: [:create, :destroy]
   end
 
   resources :attachments, only: [:destroy]
 
   resources :votes, only: [:create, :destroy]
   resources :comments, only: [:create]
-  resources :subscriptions, only: [:create, :destroy]
 
   root to: "questions#index"
 

@@ -3,7 +3,7 @@ class AnswerInformJob < ApplicationJob
 
   def perform(answer)
     answer.question.subscriptions.find_each.each do |subscription|
-      AnswerMailer.informing(subscription.user, answer).deliver_now
+      AnswerMailer.informing(subscription.user, answer).deliver_later
     end
   end
 end
