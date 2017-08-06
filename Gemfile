@@ -54,6 +54,8 @@ gem "oj_mimic_json"
 gem "sidekiq"
 gem "whenever"
 gem "sinatra", ">= 1.3.0", require: nil
+gem "mysql2"
+gem "thinking-sphinx"
 
 
 group :development do

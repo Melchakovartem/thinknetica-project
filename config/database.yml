@@ -3,6 +3,7 @@ default: &default
   encoding: unicode
   pool: 5
   username: thinknetica
+  password: thinknetica
 
 development:
   <<: *default

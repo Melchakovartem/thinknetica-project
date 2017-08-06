@@ -16,6 +16,13 @@
     <% if current_user %>
       <%= link_to "Log out", destroy_user_session_path, method: "get" %>
     <% end %>
+    <div class = "search-form">
+      <%= form_tag("/search", method: "get") do %>
+        <%= label_tag(:q, "Search") %>
+        <%= text_field_tag(:q) %><br>
+        <%= select_tag :model, options_for_select([["everywhere", ""], ["question", "question"], ["answer", "answer"], ["comment", "comment"], ["user", "user"]] ) %><br>
+        <%= submit_tag("Find") %>
+      <% end %>
     <%= yield %>
   </body>
 </html>

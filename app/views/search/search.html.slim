@@ -1,0 +1,4 @@
+ul
+- @results.each do |result|
+    = render result.class.to_s.downcase, result: result
+end

@@ -5,7 +5,7 @@ describe "Answers API" do
 
   describe "GET /index" do
     let!(:answers) { create_list(:answer, 2, question: question) }
-    let(:answer) { answers.first }
+    let(:answer) { answers.last }
     let(:request) { get "/api/v1/questions/#{question.id}/answers" }
 
     it_behaves_like "API Authenticable"
