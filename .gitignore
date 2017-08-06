@@ -23,4 +23,4 @@
 
 /config/database.yml
 /config/*.sphinx.conf
-/db/spinx/
+/db/spinx/*
