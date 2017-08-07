@@ -10,6 +10,22 @@ feature "Search text", '
   given!(:answer) { create(:answer, body: "text") }
   given!(:comment) { create(:comment, body: "text", commentable: question) }
 
+  %w(Question Answer Comment User).each do |model|
+    scenario "User can search #{model}", js: true do
+      ThinkingSphinx::Test.run do
+         visit root_path
+
+         fill_in "Search", with: "text"
+
+         select model, from: "model"
+
+         click_on "Find"
+
+        expect(page).to have_content "text"
+      end
+    end
+  end
+
   scenario "User can search everywhere", js: true do
     ThinkingSphinx::Test.run do
       visit root_path

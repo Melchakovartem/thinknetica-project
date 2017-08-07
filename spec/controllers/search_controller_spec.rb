@@ -15,21 +15,35 @@ RSpec.describe SearchController, type: :controller do
         end
 
         it 'renders search view' do
-          get :search, params: { query: "search", model: model}
+          get :search, params: { q: "search", model: model}
           expect(response).to render_template :search
         end
       end
     end
 
     context "Search in everywhere" do
-      it 'assigns search results' do
+      it "assigns search results" do
         get :search, params: { q: "search", model: "" }
         expect(assigns(:results))
       end
 
       it 'renders search view' do
-        get :search, params: { query: "search", model: ""}
+        get :search, params: { q: "search", model: ""}
         expect(response).to render_template :search
+      end
+    end
+
+    context "Search by incorrect model" do
+      it "doesn't assign search results" do
+        get :search, params: { q: "search", model: "incorrect" }
+        expect(assigns(:results)).to be_nil
+      end
+    end
+
+    context "Search with empty query" do
+      it "doesn't assign search results" do
+        get :search, params: { q: "", model: "" }
+        expect(assigns(:results)).to be_nil
       end
     end
   end

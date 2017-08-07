@@ -20,7 +20,7 @@
       <%= form_tag("/search", method: "get") do %>
         <%= label_tag(:q, "Search") %>
         <%= text_field_tag(:q) %><br>
-        <%= select_tag :model, options_for_select([["everywhere", ""], ["question", "question"], ["answer", "answer"], ["comment", "comment"], ["user", "user"]] ) %><br>
+        <%= select_tag :model, options_for_select([["Everywhere", ""], ["Question", "Question"], ["Answer", "Answer"], ["Comment", "Comment"], ["User", "User"]] ) %><br>
         <%= submit_tag("Find") %>
       <% end %>
     <%= yield %>

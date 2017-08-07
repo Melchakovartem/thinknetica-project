@@ -1,10 +1,11 @@
 class SearchService
   class << self
-    def call(query, model)
-      return ThinkingSphinx.search query if model.empty?
-      model.capitalize.constantize.search query
-    end
+    ALLOWED_MODELS = %w(Question Answer Comment User)
 
-    private
+    def call(query, model)
+      return if query.empty?
+      return ThinkingSphinx.search ThinkingSphinx::Query.escape(query) if model.empty?
+      model.constantize.search ThinkingSphinx::Query.escape(query) if ALLOWED_MODELS.include?(model)
+    end
   end
 end
