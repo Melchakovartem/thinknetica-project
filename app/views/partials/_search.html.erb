@@ -1,0 +1,8 @@
+<div class = "search-form">
+  <%= form_tag("/search", method: "get") do %>
+    <%= label_tag(:q, "Search") %>
+    <%= text_field_tag(:q) %><br>
+    <%= select_tag :model, options_for_select(SearchService::ALLOWED_MODELS) %><br>
+    <%= submit_tag("Find") %>
+  <% end %>
+</div>

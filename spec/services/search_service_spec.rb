@@ -6,7 +6,7 @@ RSpec.describe SearchService do
     it "searchs everywhere" do
       expect(ThinkingSphinx::Query).to receive(:escape).with("test").and_call_original
       expect(ThinkingSphinx).to receive(:search).with("test")
-      SearchService.call("test", "")
+      SearchService.call("test", "Everywhere")
     end
 
     %w(Question Answer Comment User).each do |model|
