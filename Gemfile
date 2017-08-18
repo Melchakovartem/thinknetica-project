@@ -59,6 +59,7 @@ gem "thinking-sphinx"
 gem "dotenv"
 gem "dotenv-deployment", require: "dotenv/deployment"
 gem "therubyracer"
+gem "nokogiti", "~> 1.6.3"
 
 
 group :development do
