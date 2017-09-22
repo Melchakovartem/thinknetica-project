@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  SKIPABLE_OAUTH = ["facebook"]
+  SKIPABLE_OAUTH = ["facebook", "vk"]
 
   has_many :questions, dependent: :destroy
   has_many :answers, dependent: :destroy
