@@ -31,5 +31,5 @@ namespace :deploy do
     end
   end
 
-  after :publishing, :restart
+  after 'deploy:publishing', 'deploy:restart'
 end
