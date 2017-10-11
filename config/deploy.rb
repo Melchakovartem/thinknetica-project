@@ -27,9 +27,9 @@ namespace :deploy do
     on roles(:app), in: :sequence, wait: 5 do
       #Your restart mechanism here
       #execute :touch, release_path.join("tmp/restart.txt")
-      invoke "unicorn:resart"
+      invoke "unicorn:restart"
     end
   end
 
-  after 'deploy:publishing', 'deploy:restart'
+  after :publishing, :restart
 end
