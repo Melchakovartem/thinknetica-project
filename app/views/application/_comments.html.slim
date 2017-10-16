@@ -2,6 +2,7 @@ h5 comments to "#{model.class.name}"
 .comments
   ul class="list-of-comments"
     -model.comments.order(id: :asc).each do |comment|
+      - cache comment do
         li= comment.body
 
   p
