@@ -2,15 +2,15 @@ require "rails_helper"
 
 describe "Questions API" do
   describe "GET /index" do
+    let!(:questions) { create_list(:question, 2) }
+    let!(:question) { questions.first }
+    let!(:answer) { create(:answer, question: question) }
     let(:request) { get "/api/v1/questions" }
 
     it_behaves_like "API Authenticable"
 
     context "authorized" do
       let(:access_token) { create(:access_token) }
-      let!(:questions) { create_list(:question, 2) }
-      let(:question) { questions.first }
-      let!(:answer) { create(:answer, question: question) }
 
       before do
         get "/api/v1/questions", params: { format: :json, access_token: access_token.token }
@@ -26,7 +26,7 @@ describe "Questions API" do
 
       %w(id title body created_at updated_at).each do |attr|
         it "question object contains #{attr}" do
-          expect(response.body).to be_json_eql(question.send(attr.to_sym).to_json).at_path("0/#{attr}")
+          expect(response.body).to be_json_eql(question.send(attr.to_sym).to_json).at_path("1/#{attr}")
         end
       end
     end
