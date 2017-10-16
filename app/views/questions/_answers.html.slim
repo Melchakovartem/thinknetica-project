@@ -1,3 +1,4 @@
 - @answers.each do |answer|
-  - if answer.persisted?
-    = render partial: "answers/edit_answer", locals: { answer: answer }
+  - cache answer do
+    - if answer.persisted?
+      = render partial: "answers/edit_answer", locals: { answer: answer }

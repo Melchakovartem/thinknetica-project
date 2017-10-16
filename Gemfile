@@ -61,6 +61,7 @@ gem "dotenv-deployment", require: "dotenv/deployment"
 gem "therubyracer"
 gem "nokogiri", "1.6.8"
 gem "unicorn"
+gem "redis-rails"
 
 
 
